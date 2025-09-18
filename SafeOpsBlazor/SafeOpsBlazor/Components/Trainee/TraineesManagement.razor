@@ -1,0 +1,922 @@
+﻿@page "/trainees-management"
+@inject IStringLocalizer<Lang> Localizer
+@inject MajorClientService majorClientService
+@inject TraineeClientService traineeClientService
+@inject ToastService toastService
+@inject NavigationManager Navigation
+@inject TraineeDataService traineeDataService
+@inject IJSRuntime jsRuntime
+
+<SfSpinner Size="50" Visible="@IsBusy"></SfSpinner>
+
+<SfToast @ref="sfToast" />
+
+
+
+
+
+
+<!--Modal Trainee (edit,add,view) info-->
+
+<ModalForm FormModel="TraineeSharedInfo" OnVaildSubmit="OnValidSubmit" @ref="modal" Title="@Localizer["EditTraineeInfo"]">
+
+
+    <Header>
+
+    </Header>
+    
+
+    <Body>
+
+        @if (modalViewMode == ModalViewMode.Add || modalViewMode == ModalViewMode.View || modalViewMode == ModalViewMode.Edit)
+        {
+
+            <div class="w-100 text-center">
+                <img src="@ImagePreview"
+                     class="rounded-circle"
+                     style="width: 100px; height: 100px;"
+                     alt="Avatar"
+                     @onerror="HandleImageError" />
+
+            </div>
+
+        }
+
+        <div class="input-group mb-1">
+
+            <div class="w-100 mb-1">
+                <ValidationMessage For="@(() => TraineeSharedInfo.AcademyId)" />
+            </div>
+
+            <span class="input-group-text">Academy Id</span>
+
+            <InputNumber @bind-Value="TraineeSharedInfo.AcademyId" class="form-control" type="text" />
+        </div>
+        <div class="input-group mb-1">
+
+            <div class="w-100 mb-1">
+                <ValidationMessage For="@(() => TraineeSharedInfo.NationalId)" class="text-danger" />
+            </div>
+
+
+            <span class="input-group-text">National Id</span>
+            <InputNumber @bind-Value="TraineeSharedInfo.NationalId" class="form-control" type="text" />
+        </div>
+
+
+        <div class="input-group mb-1">
+
+            <div class="w-100 mb-1">
+                <ValidationMessage For="@(() => TraineeSharedInfo.Name)" />
+            </div>
+
+            <span class="input-group-text">Name</span>
+
+            <InputText @bind-Value="TraineeSharedInfo.Name" class="form-control" type="text" />
+        </div>
+        <div class="input-group mb-1">
+
+            <div class="w-100 mb-1">
+                <ValidationMessage class="d-block" For="@(() => TraineeSharedInfo.MajorId)" />
+            </div>
+
+            <span class="input-group-text">Major</span>
+
+
+            @if (modalViewMode == ModalViewMode.Edit || modalViewMode == ModalViewMode.Add)
+            {
+
+
+                <InputSelect @bind-Value="TraineeSharedInfo.MajorId" class="form-control" type="text">
+
+
+                    @if (traineeMajorShareds is not null)
+                    {
+                        foreach (var major in traineeMajorShareds)
+                        {
+                            <option value="@major.Id">@major.Name</option>
+                        }
+                    }
+
+                </InputSelect>
+            }
+            else
+            {
+
+                <InputSelect disabled @bind-Value="TraineeSharedInfo.MajorId" class="form-control" type="text">
+
+
+                    @if (traineeMajorShareds is not null)
+                    {
+                        foreach (var major in traineeMajorShareds)
+                        {
+                            <option value="@major.Id">@major.Name</option>
+                        }
+                    }
+
+                </InputSelect>
+            }
+        </div>
+
+        <div class="input-group mb-1">
+
+            <div class="w-100 mb-1">
+                <ValidationMessage For="@(() => TraineeSharedInfo.Email)" />
+            </div>
+            <span class="input-group-text">Email</span>
+
+            <InputText @bind-Value="TraineeSharedInfo.Email" class="form-control" type="text" />
+        </div>
+        <div class="input-group">
+            <div class="w-100 mb-1">
+                <ValidationMessage For="@(() => TraineeSharedInfo.Phone)" />
+            </div>
+            <span class="input-group-text">Phone</span>
+
+            <InputText @bind-Value="TraineeSharedInfo.Phone" class="form-control" type="text" />
+        </div>
+        <div class="input-group mb-1">
+            <div class="w-100 mb-1">
+                <ValidationMessage For="@(() => TraineeSharedInfo.Address)" />
+            </div>
+            <span class="input-group-text">Address</span>
+            <InputText @bind-Value="TraineeSharedInfo.Address" class="form-control" type="text" />
+        </div>
+        <div class="input-group mb-1">
+            <div class="w-100 mb-1">
+                <ValidationMessage For="@(() => TraineeSharedInfo.City)" />
+            </div>
+            <span class="input-group-text">City</span>
+
+            <InputText @bind-Value="TraineeSharedInfo.City" class="form-control" type="text" />
+
+        </div>
+        <div class="input-group mb-1">
+            <div class="w-100 mb-1">
+                <ValidationMessage For="@(() => TraineeSharedInfo.Zip)" />
+            </div>
+            <span class="input-group-text">Zip</span>
+            <InputText @bind-Value="TraineeSharedInfo.Zip" class="form-control" type="text" />
+        </div>
+        <div class="input-group mb-1">
+            <div class="w-100 mb-1">
+                <ValidationMessage For="@(() => TraineeSharedInfo.BehaviorScore)" />
+            </div>
+            <span class="input-group-text">Behavior Score</span>
+            <InputNumber @bind-Value="TraineeSharedInfo.BehaviorScore" class="form-control" type="text" />
+        </div>
+
+        @if (modalViewMode == ModalViewMode.Edit || modalViewMode == ModalViewMode.Add)
+
+        {
+
+
+            <label for="profileImage">Profile Image</label>
+
+            <InputFile OnChange="OnImageChange" class="form-control mb-1" id="profileImage" type="file" accept="image/*" />
+        }
+
+
+    
+
+    </Body>
+
+
+    <Footer>
+        @if (modalViewMode == ModalViewMode.Add)
+        {
+            // add new trainee Button
+            <button class="btn btn-primary" type="submit">@Localizer["AddTrainee"]</button>
+        }
+        else if (modalViewMode == ModalViewMode.Edit)
+        {
+            // Save edited trainee info Button
+            <button class="btn btn-primary" type="submit">@Localizer["Save"]</button>
+        }
+
+    </Footer>
+
+</ModalForm>
+
+
+
+<!--End of Modal-->
+
+<div class="container">
+
+    <div class="row">
+        <div class="col-md-6">
+
+        </div>
+        <div class="col-md-6 col-12 text-start">
+
+            <div class="btn-group text-nowrap" role="group" aria-label="Basic radio toggle button group">
+
+                <InputRadioGroup @bind-Value="searchType" class="w-100 overflow-x-auto" TValue="SearchType" Name="SearchType">
+
+                <InputRadio TValue="SearchType" Value="SearchType.ById" id="btnradio1" class="btn-check" type="radio"  autocomplete="off" checked />
+                <label class="form-label btn btn-outline-dark" for="btnradio1">
+                    @Localizer["SearchById"]
+                </label>
+                <InputRadio TValue="SearchType" Value="SearchType.ByName" id="btnradio2" class="btn-check" type="radio"  autocomplete="off" />
+                <label class="form-label btn btn-outline-dark" for="btnradio2">
+                    @Localizer["SearchByName"]
+                </label>
+                    <InputRadio TValue="SearchType" Value="SearchType.NationalId" id="btnradio3" class="btn-check" type="radio" autocomplete="off" />
+                <label class="form-label btn btn-outline-dark" for="btnradio3">
+                    @Localizer["SearchByNationalId"]
+                </label>
+
+                    </InputRadioGroup>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 col-md-2">
+           
+           @*  Show Add new trainee dialog button *@ 
+            <button @onclick="ShowAddNewTraineeDialog" class="btn btn-dark w-100" type="button">
+                <span class="bi bi-plus-circle-fill"></span>
+            </button>
+
+            </div>
+        <div class="col-md-10 mt-sm-3 mt-3 mt-md-0 col-12">
+
+            
+            <div class="input-group mb-1">
+                <div class="input-group-prepend">
+
+                    <span class="input-group-text" id="basic-addon1">
+                        <i class="bi bi-search"></i>
+                    </span>
+                </div>
+
+
+                <InputText @bind-Value="SearchText" @onkeypress="OnSearchKeyPress" @oninput="UpdateSearchText" type="text" class="form-control" placeholder="Search" aria-label="search" aria-describedby="basic-addon1" />
+            </div>
+
+            </div>
+    </div>
+</div>
+
+
+<div class="table-responsive h-100 w-100 mt-3">
+    <QuickGrid   Class="table text-nowrap h-100 w-100" Items="Trainees">
+
+
+       
+       
+        <TemplateColumn Title="Actions">
+
+            <!--View button-->
+            <button class="btn btn-primary" @onclick="() => ViewTrainee(context)" > 
+                <span class="bi bi-eye-fill"></span> 
+                </button>
+
+                <!--Delete button-->
+            <button class="btn btn-danger" @onclick="() => DeleteTrainee(context)">
+                <span class="bi bi-trash-fill"></span>
+            </button>
+
+            <!--Edit button-->
+            <button class="btn btn-warning" @onclick="() => EditTrainee(context)">
+                <span class="bi bi-pen-fill"></span>
+            </button>
+
+            @* violations button  *@
+            <button class="btn btn-info" @onclick="() => ViewTraineeViolations(context)">
+                <span class="bi bi-exclamation-triangle-fill"></span>
+                </button>
+        </TemplateColumn>
+
+       
+
+
+
+
+
+        <PropertyColumn Sortable="true" Property="t => t.Id" Title="ID">
+            </PropertyColumn>
+
+        <PropertyColumn Property="t => t.AcademyId" Title="Academy ID" />
+        <PropertyColumn Property="t => t.NationalId" Title="National ID" />
+        <PropertyColumn Property="t => t.Name" Title="Name" />
+        <PropertyColumn Property="t => t.Major" Title="Major" />
+        <PropertyColumn Property="t => t.Email" Title="Email" />
+        <PropertyColumn Property="t => t.Phone" Title="Phone" />
+        <PropertyColumn Property="t => t.Address" Title="Address" />
+        <PropertyColumn Property="t => t.City" Title="City" />
+        <PropertyColumn Property="t => t.State" Title="State" />
+        <PropertyColumn Property="t => t.Zip" Title="Zip" />
+        <PropertyColumn Property="t => t.BehaviorScore" Title="Behavior Score" />
+
+
+
+        
+    </QuickGrid>
+</div>
+
+
+@* pagination *@
+
+<nav>
+    <ul class="pagination">
+        <li class="page-item">
+
+            <PreviousPageButton IsDisabled="@isPreviousPageDisabled" OnPreviousClicked="PreviousTrainees" />
+
+        </li>
+
+        <li>
+            <input class="h-100 w-100 text-center" disabled value="@currentPage.ToString()" />
+        </li>
+
+
+
+        
+        <li class="page-item">
+
+            <NextPageButton IsDisabled="@isNextPageDisabled" OnNextClicked="NextTrainees" />
+
+        </li>
+    </ul>
+</nav>
+
+
+
+
+@code {
+    #region Fields
+
+
+    private ModalForm modal;
+
+
+    private SearchType searchType = SearchType.ByName;
+    private DisplayType modalDisplayType = DisplayType.none;
+
+    private List<TraineeMajorShared> traineeMajorShareds = new();
+    private SfToast sfToast;
+    // private TraineeShared traineeSharedAdd = new();
+
+    private ModalViewMode modalViewMode;
+
+    private uint currentPage = 1;
+
+    //buttons
+    private bool isPreviousPageDisabled = true;
+    private bool isNextPageDisabled = false;
+
+
+    //animations
+
+    private string modalAnimation;
+
+    //end of animations
+
+
+    #endregion
+
+    #region Properties
+
+
+    private IQueryable<TraineeShared> Trainees { get; set; }
+    private bool IsBusy { get; set; }
+    private TraineeShared TraineeSharedInfo { get; set; }  = new TraineeShared();
+
+    private string SearchText { get; set; }
+
+    private string ImagePreview { get; set; }
+
+
+
+
+
+
+
+    #endregion
+
+
+    #region Methods
+
+
+    #region Debug Methods
+
+
+    private async Task SimulateDelay()
+    {
+        await Task.Delay(2000);
+    }
+
+    private async Task LogInfo(string message)
+    {
+        await jsRuntime.InvokeVoidAsync("console.log", message);
+    }
+
+
+
+    #endregion
+
+
+    #region Pagination
+
+    private async Task NextTrainees()
+    {
+
+        IsBusy = true;
+
+        #if DEBUG
+    await SimulateDelay();
+    await LogInfo(" simulating delay ");
+        #endif
+
+        if (isPreviousPageDisabled)
+            isPreviousPageDisabled = false;
+
+        if (searchType == SearchType.All)
+        {
+
+
+            var traineeResult = await traineeClientService.GetTraineesAsync(++currentPage, 10);
+
+            if (traineeResult.StatusCode == System.Net.HttpStatusCode.PartialContent)
+            {
+                Trainees = traineeResult.Trainees.AsQueryable<TraineeShared>();
+            }
+
+            else if (traineeResult.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                Trainees = traineeResult.Trainees.AsQueryable<TraineeShared>();
+                isNextPageDisabled = true;
+            }
+
+            else if (traineeResult.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+
+                isNextPageDisabled = true;
+            }
+        }
+
+        else if(searchType == SearchType.ByName)
+        {
+            await SearchByName(SearchText,++currentPage,10);
+        }
+
+        IsBusy = false;
+    }
+
+    private async Task PreviousTrainees()
+    {
+
+        IsBusy = true;
+
+        #if DEBUG
+    await SimulateDelay();
+    await LogInfo(" simulating delay ");
+        #endif
+
+        if(isNextPageDisabled)
+            isNextPageDisabled = false;
+
+
+        if (searchType == SearchType.All)
+        {
+
+
+            var traineeResult = await traineeClientService.GetTraineesAsync(--currentPage, 10);
+
+
+
+            if (traineeResult.StatusCode == System.Net.HttpStatusCode.PartialContent || traineeResult.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                Trainees = traineeResult.Trainees.AsQueryable<TraineeShared>();
+            }
+            else if (traineeResult.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                await toastService.ShowError(sfToast, Localizer["ThisIsLastPage"], Localizer["LastPage"]);
+            }
+
+            if (currentPage <= 1)
+            {
+                isPreviousPageDisabled = true;
+            }
+        }
+        else if(searchType == SearchType.ByName)
+        {
+            await SearchByName(SearchText,--currentPage,10);
+        }
+
+        IsBusy = false;
+    }
+
+    #endregion
+
+
+    #region Search
+
+    private async Task SearchBy()
+    {
+        if (searchType == SearchType.ById)
+        {
+            if (int.TryParse(SearchText, out int result))
+            {
+
+                var traineeResult = await traineeClientService.GetTraineeByIdAsync(Convert.ToInt32(SearchText));
+
+                if (traineeResult.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    Trainees = Enumerable.Empty<TraineeShared>().AsQueryable();
+
+                    Trainees = Trainees.Append(traineeResult.Trainee);
+
+                }
+                else if (traineeResult.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    await toastService.ShowError(sfToast, Localizer["NoTraineesFound"], Localizer["Error"]);
+                }
+            }
+        }
+        else if (searchType == SearchType.NationalId)
+        {
+            if (int.TryParse(SearchText, out int result))
+            {
+
+
+                var traineeResult = await traineeClientService.GetTraineeByNationalIdAsync(Convert.ToInt32(SearchText));
+
+                if (traineeResult.StatusCode == System.Net.HttpStatusCode.OK)
+                {
+                    Trainees = Enumerable.Empty<TraineeShared>().AsQueryable();
+                    Trainees = Trainees.Append(traineeResult.Trainee);
+                }
+                else if (traineeResult.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    await toastService.ShowError(sfToast, Localizer["NoTraineesFound"], Localizer["Error"]);
+                }
+
+            }
+        }
+        else
+        {
+            await SearchByName(SearchText,1,10);
+        }
+    }
+
+
+    private async Task SearchByName(string name,uint page,uint pageSize)
+    {
+        var traineeResult = await traineeClientService.GetTraineeByNameAsync(name,page,pageSize);
+        if (traineeResult.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            Trainees = traineeResult.Trainees.AsQueryable();
+            isNextPageDisabled = true;
+        }
+        else if(traineeResult.StatusCode == System.Net.HttpStatusCode.PartialContent)
+        {
+            Trainees = traineeResult.Trainees.AsQueryable();
+            isNextPageDisabled = false;
+        }
+        else if (traineeResult.StatusCode == System.Net.HttpStatusCode.NotFound)
+        {
+            Trainees = Enumerable.Empty<TraineeShared>().AsQueryable();
+        }
+    }
+
+
+    #endregion
+
+
+
+    #region Form Submit
+
+
+    private async Task OnValidSubmit()
+    {
+        if (modalViewMode == ModalViewMode.Add)
+        {
+
+
+            //display alert if user want to add trainee or not
+            var resultAdd = await Application.Current.MainPage.DisplayAlert(Localizer["AddTrainee"], Localizer["AddTraineeConfirmation"], Localizer["Yes"], Localizer["No"]);
+
+
+            if (resultAdd)
+            {
+                if (TraineeSharedInfo.ProfileImage is null)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", "Please select a profile image", "Ok");
+                    return;
+                }
+
+
+
+#if DEBUG
+    await SimulateDelay();
+    await LogInfo(" simulating delay ");
+#endif
+
+
+                var result = await traineeClientService.AddTraineeAsync(TraineeSharedInfo);
+
+                if (result.Status == 200)
+                {
+                    Trainees.Append(TraineeSharedInfo);
+
+                    await toastService.ShowSuccess(sfToast, Localizer["TraineeAddedSuccessfully"], Localizer["Success"]);
+
+                    StateHasChanged();
+                }
+
+                else
+                {
+                    await toastService.ShowError(sfToast, Localizer["ErrorOccurred"], Localizer["Error"]);
+                }
+            }
+            else
+                return;
+        }
+
+        else
+        {
+            //display alert if user want to update trainee or not
+            var resultUpdate = await Application.Current.MainPage.DisplayAlert(Localizer["UpdateTrainee"], Localizer["UpdateTraineeConfirmation"], Localizer["Yes"], Localizer["No"]);
+
+
+            if (resultUpdate)
+            {
+
+#if DEBUG
+    await SimulateDelay();
+    await LogInfo(" simulating delay ");
+#endif
+                ServerResponse serverResponse = await traineeClientService.UpdateTraineeAsync(TraineeSharedInfo);
+
+                if (serverResponse.Status == 200)
+                {
+                    await toastService.ShowSuccess(sfToast, Localizer["TraineeUpdatedSuccessfully"], Localizer["Success"]);
+                    StateHasChanged();
+                }
+                else
+                {
+                    await toastService.ShowError(sfToast, Localizer["ErrorOccurred"], Localizer["Error"]);
+                }
+            }
+        }
+
+
+    }
+
+    #endregion
+
+
+    #region Image Preview
+
+    private void HandleImageError()
+    {
+        ImagePreview = "images/favicon.png";
+    }
+
+    private void DisplayImage(string base64Image)
+    {
+
+        ImagePreview = $"data:image/jpeg;base64,{base64Image}";
+
+    }
+
+    #endregion
+
+
+
+    #region Quick Grid
+
+    private async void EditTrainee(TraineeShared traineeShared)
+    {
+        modalViewMode = ModalViewMode.Edit;
+
+
+        #if DEBUG
+
+    await SimulateDelay();
+    await LogInfo(" simulating delay ");
+
+        #endif
+
+        var majorResult = await majorClientService.GetAllTraineeMajors();
+
+
+        traineeMajorShareds = majorResult.TraineeMajors.ToList();
+
+
+
+
+        DisplayImage(traineeShared.ProfileImage);
+
+
+
+        TraineeSharedInfo = traineeShared;
+
+
+        modal.Show();
+
+
+    }
+
+
+    private async Task DeleteTrainee(TraineeShared traineeShared)
+    {
+
+        bool result = await Application.Current.MainPage.DisplayAlert(Localizer["Delete"], Localizer["DeleteConfirmation"], Localizer["Yes"], Localizer["No"]);
+
+        if (result)
+        {
+
+            #if DEBUG
+
+    await SimulateDelay();
+    await LogInfo(" simulating delay ");
+
+            #endif
+            ServerResponse serverResponse = await traineeClientService.DeleteTraineeAsync(traineeShared.Id);
+
+            if (serverResponse.Status == 200)
+            {
+                Trainees = Trainees.Where(t => t.Id != traineeShared.Id);
+                await toastService.ShowSuccess(sfToast, Localizer["TraineeDeletedSuccessfully"], Localizer["Success"]);
+            }
+            else
+            {
+                await toastService.ShowError(sfToast, Localizer["ErrorOccurred"], Localizer["Error"]);
+            }
+        }
+        else
+        //do nothing
+        {
+            return;
+        }
+    }
+
+    private async void ViewTrainee(TraineeShared traineeShared)
+    {
+        modalViewMode = ModalViewMode.View;
+
+        #if DEBUG
+
+    await SimulateDelay();
+
+    await LogInfo(" simulating delay ");
+
+        #endif
+        var majorResult = await majorClientService.GetAllTraineeMajors();
+        traineeMajorShareds = majorResult.TraineeMajors.ToList();
+        DisplayImage(traineeShared.ProfileImage);
+        TraineeSharedInfo = traineeShared;
+
+        modal.Show();
+    }
+
+    private async void ViewTraineeViolations(TraineeShared traineeShared)
+    {
+
+        traineeDataService.TraineeSharedData = traineeShared;
+
+        Navigation.NavigateTo("/trainee-violations/0");
+    }
+
+    private async void ShowAddNewTraineeDialog()
+    {
+        IsBusy = true;
+        StateHasChanged();
+        ImagePreview = null;
+        modalViewMode = ModalViewMode.Add;
+
+        TraineeSharedInfo = new();
+
+
+        var majorResult = await majorClientService.GetAllTraineeMajors();
+
+        if (majorResult is not null && majorResult.TraineeMajors.ToList().Count > 0)
+        {
+            traineeMajorShareds = majorResult.TraineeMajors.ToList();
+
+
+
+            TraineeSharedInfo.MajorId = traineeMajorShareds.FirstOrDefault().Id;
+
+            modal.Show();
+        }
+        else
+        {
+            await toastService.ShowWarning(sfToast, Localizer["OpenAddTraineeMajorError"], Localizer["Warrning"]);
+        }
+
+        IsBusy = false;
+
+        StateHasChanged();
+    }
+
+    #endregion
+
+
+
+
+
+    #region Modal Elements
+
+
+    #endregion
+
+    #endregion
+
+    #region Overrides
+
+    protected override async Task OnInitializedAsync()
+    {
+        //get trainnees 
+
+        IsBusy = true;
+
+
+        #if DEBUG
+
+        await SimulateDelay();
+        await LogInfo(" simulating delay ");
+
+        #endif
+        
+
+        var traineeResult = await traineeClientService.GetTraineesAsync(1,10);
+
+        searchType = SearchType.All;
+
+        if (traineeResult.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            Trainees = traineeResult.Trainees.AsQueryable<TraineeShared>();
+            isNextPageDisabled = true;
+        }
+        else if(traineeResult.StatusCode == System.Net.HttpStatusCode.PartialContent)
+        {
+            Trainees = traineeResult.Trainees.AsQueryable<TraineeShared>();
+        }
+        else if(traineeResult.StatusCode == System.Net.HttpStatusCode.NotFound)
+        {
+            await toastService.ShowError(sfToast, Localizer["NoTraineesFound"], Localizer["Error"]);
+        }
+
+        //get trainee major
+
+        IsBusy = false;
+
+
+
+
+
+    }
+    #endregion
+
+    #region Events
+
+
+    private async Task OnImageChange(InputFileChangeEventArgs e)
+    {
+        var imageFile = e.File;
+
+        if (imageFile is not null)
+        {
+            var buffer = new byte[imageFile.Size];
+
+            await imageFile.OpenReadStream().ReadAsync(buffer);
+            var profileImageBase64 = Convert.ToBase64String(buffer);
+
+            TraineeSharedInfo.ProfileImage = profileImageBase64;
+
+            ImagePreview = $"data:{imageFile.ContentType};base64,{profileImageBase64}";
+
+        }
+    }
+
+    private void UpdateSearchText(Microsoft.AspNetCore.Components.ChangeEventArgs e)
+    {
+        SearchText = e.Value?.ToString();
+    }
+
+
+    //on key press event
+    private async Task OnSearchKeyPress(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            IsBusy = true;
+
+
+            await SearchBy();
+
+            IsBusy = false;
+        }
+    }
+
+    #endregion
+
+
+}

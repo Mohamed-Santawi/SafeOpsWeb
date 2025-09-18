@@ -1,0 +1,46 @@
+﻿@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager Navigation
+@inject IStringLocalizer<Lang> Localizer
+@page "/logout"
+
+
+<h1 style="display:">@Localizer["LoggingOut"]...</h1>
+
+@code {
+    #region Fields  
+
+    private DisplayType H1LoggingOutDisplay = DisplayType.block;
+
+    #endregion
+
+
+    #region Events
+
+    protected async override Task OnInitializedAsync()
+    {
+        await LogoutAsync((ApiAuthenticationStateProvider)AuthenticationStateProvider);
+    }
+
+    #endregion
+
+
+    #region Methods
+
+    private async Task LogoutAsync(ApiAuthenticationStateProvider apiAuthenticationStateProvider)
+    {
+        H1LoggingOutDisplay = DisplayType.block;
+        await apiAuthenticationStateProvider.Logout();
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var user = authState.User;
+        if (!user.Identity.IsAuthenticated)
+        {
+            Navigation.NavigateTo("/login");
+        }
+
+        H1LoggingOutDisplay = DisplayType.none;
+    }
+
+    #endregion
+
+
+}

@@ -1,0 +1,44 @@
+﻿<button @onclick:preventDefault="IsDisabled"
+        @onclick="OnButtonClick"
+        class="page-link @PreviousButtonDisabledClass.ToString()"
+        aria-label="Previous">
+    <span aria-hidden="true">«</span>
+</button>
+
+@code {
+    #region Parameters
+    // Event callback to notify the parent component
+    [Parameter]
+    public EventCallback OnPreviousClicked { get; set; }
+
+    // Property to enable/disable the button
+    [Parameter]
+    public bool IsDisabled { get; set; } = false;
+
+    #endregion
+
+    #region Fields
+
+    private BoostStrapDisabledType PreviousButtonDisabledClass = BoostStrapDisabledType.none;
+
+    #endregion
+
+    #region Methods
+
+    private async Task OnButtonClick()
+    {
+        if (!IsDisabled && OnPreviousClicked.HasDelegate)
+        {
+            await OnPreviousClicked.InvokeAsync(null);
+        }
+    }
+
+    protected override void OnParametersSet()
+    {
+        PreviousButtonDisabledClass = IsDisabled
+            ? BoostStrapDisabledType.disabled
+            : BoostStrapDisabledType.none;
+    }
+
+    #endregion
+}

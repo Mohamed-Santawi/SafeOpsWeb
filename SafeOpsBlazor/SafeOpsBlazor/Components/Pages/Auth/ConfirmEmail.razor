@@ -1,0 +1,66 @@
+﻿@page "/confirmemail"
+@inject IEmailClientService EmailClientService
+@inject IStringLocalizer<Lang> Localizer
+<div class="container">
+    <section id="Section-Email-Confirm" style="margin-top: 38px;">
+        <div class="row">
+            <div class="col text-center">
+                <h1>Resend email confirmation 📥</h1>
+            </div>
+        </div>
+        
+        <EditForm Model="resendEmailModel" OnValidSubmit="OnVaildSubmit">
+            <DataAnnotationsValidator></DataAnnotationsValidator>
+            <ValidationMessage For="@(() => resendEmailModel.Email)"/>
+            <div class="row">
+                <div class="col">
+                    <div class="text-center" style="width: 100%;">
+                        <i class="fas fa-mail-bulk" style="padding-left: 0px;margin-right: 10px;font-size: 22px;"></i>
+                        <InputText @bind-Value="@resendEmailModel.Email" type="email" placeholder="@Localizer["Email"]" style="width: 400px;"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="text-center" style="width: 100%;">
+                        <button class="btn btn-primary" type="submit" style="margin-top: 13px;">Send 📩</button>
+                    </div>
+                </div>
+            </div>
+        </EditForm>
+    </section>
+</div>
+
+
+@code {
+
+    #region Fields  
+    private ResendEmailModel resendEmailModel = new ResendEmailModel();
+    private EditContext editContext;
+    #endregion
+
+    #region Events
+    
+
+
+    #endregion
+    #region Methods
+
+    async Task OnVaildSubmit()
+    {
+        ServerResponse serverResponse = await EmailClientService.SendConfirmationEmail(resendEmailModel.Email);
+
+        if (serverResponse.Status == 200)
+        {
+            Application.Current.MainPage.DisplayAlert(Localizer["Success"], Localizer["EmailSent"], Localizer["Ok"]);
+        }
+        else
+        {
+            Application.Current.MainPage.DisplayAlert(Localizer["Error"], Localizer["ErrorOccured"], Localizer["Ok"]);
+        }
+    }
+
+
+
+    #endregion
+}

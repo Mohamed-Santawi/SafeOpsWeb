@@ -1,0 +1,371 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Abady\\source\\repos\\SafeOpsBlazor\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{4A899502-9237-4AB2-B273-9449CDC24D96}|SafeOpsBlazor\\SafeOpsBlazor.csproj|c:\\users\\abady\\source\\repos\\safeopsblazor\\safeopsblazor\\handler\\apiauthenticationstateprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4A899502-9237-4AB2-B273-9449CDC24D96}|SafeOpsBlazor\\SafeOpsBlazor.csproj|solutionrelative:safeopsblazor\\handler\\apiauthenticationstateprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4A899502-9237-4AB2-B273-9449CDC24D96}|SafeOpsBlazor\\SafeOpsBlazor.csproj|c:\\users\\abady\\source\\repos\\safeopsblazor\\safeopsblazor\\components\\pages\\violation\\traineeviolations.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4A899502-9237-4AB2-B273-9449CDC24D96}|SafeOpsBlazor\\SafeOpsBlazor.csproj|solutionrelative:safeopsblazor\\components\\pages\\violation\\traineeviolations.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4A899502-9237-4AB2-B273-9449CDC24D96}|SafeOpsBlazor\\SafeOpsBlazor.csproj|c:\\users\\abady\\source\\repos\\safeopsblazor\\safeopsblazor\\components\\layout\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4A899502-9237-4AB2-B273-9449CDC24D96}|SafeOpsBlazor\\SafeOpsBlazor.csproj|solutionrelative:safeopsblazor\\components\\layout\\mainlayout.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4A899502-9237-4AB2-B273-9449CDC24D96}|SafeOpsBlazor\\SafeOpsBlazor.csproj|c:\\users\\abady\\source\\repos\\safeopsblazor\\safeopsblazor\\components\\routes.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4A899502-9237-4AB2-B273-9449CDC24D96}|SafeOpsBlazor\\SafeOpsBlazor.csproj|solutionrelative:safeopsblazor\\components\\routes.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4A899502-9237-4AB2-B273-9449CDC24D96}|SafeOpsBlazor\\SafeOpsBlazor.csproj|c:\\users\\abady\\source\\repos\\safeopsblazor\\safeopsblazor\\components\\pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4A899502-9237-4AB2-B273-9449CDC24D96}|SafeOpsBlazor\\SafeOpsBlazor.csproj|solutionrelative:safeopsblazor\\components\\pages\\home.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4A899502-9237-4AB2-B273-9449CDC24D96}|SafeOpsBlazor\\SafeOpsBlazor.csproj|c:\\users\\abady\\source\\repos\\safeopsblazor\\safeopsblazor\\components\\layout\\navmenu.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4A899502-9237-4AB2-B273-9449CDC24D96}|SafeOpsBlazor\\SafeOpsBlazor.csproj|solutionrelative:safeopsblazor\\components\\layout\\navmenu.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4A899502-9237-4AB2-B273-9449CDC24D96}|SafeOpsBlazor\\SafeOpsBlazor.csproj|c:\\users\\abady\\source\\repos\\safeopsblazor\\safeopsblazor\\components\\pages\\auth\\login.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4A899502-9237-4AB2-B273-9449CDC24D96}|SafeOpsBlazor\\SafeOpsBlazor.csproj|solutionrelative:safeopsblazor\\components\\pages\\auth\\login.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4A899502-9237-4AB2-B273-9449CDC24D96}|SafeOpsBlazor\\SafeOpsBlazor.csproj|c:\\users\\abady\\source\\repos\\safeopsblazor\\safeopsblazor\\components\\pages\\maintenance\\maintenanceorders.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4A899502-9237-4AB2-B273-9449CDC24D96}|SafeOpsBlazor\\SafeOpsBlazor.csproj|solutionrelative:safeopsblazor\\components\\pages\\maintenance\\maintenanceorders.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4A899502-9237-4AB2-B273-9449CDC24D96}|SafeOpsBlazor\\SafeOpsBlazor.csproj|c:\\users\\abady\\source\\repos\\safeopsblazor\\safeopsblazor\\components\\user\\userprofile.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4A899502-9237-4AB2-B273-9449CDC24D96}|SafeOpsBlazor\\SafeOpsBlazor.csproj|solutionrelative:safeopsblazor\\components\\user\\userprofile.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4A899502-9237-4AB2-B273-9449CDC24D96}|SafeOpsBlazor\\SafeOpsBlazor.csproj|c:\\users\\abady\\source\\repos\\safeopsblazor\\safeopsblazor\\service\\violationclientservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4A899502-9237-4AB2-B273-9449CDC24D96}|SafeOpsBlazor\\SafeOpsBlazor.csproj|solutionrelative:safeopsblazor\\service\\violationclientservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7ADAB4F6-EFB6-4168-933B-4CCB88931219}|..\\Auth\\AuthServer\\AuthServer.csproj|c:\\users\\abady\\source\\repos\\auth\\authserver\\procedures\\infrigementprocedures.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7ADAB4F6-EFB6-4168-933B-4CCB88931219}|..\\Auth\\AuthServer\\AuthServer.csproj|c:\\users\\abady\\source\\repos\\auth\\authserver\\procedures\\traineeprocedures.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{20011451-E49D-476E-B9DB-20FC872F0F38}|..\\Auth\\AuthShared\\AuthShared.csproj|c:\\users\\abady\\source\\repos\\auth\\authshared\\models\\infrigementshared.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{20011451-E49D-476E-B9DB-20FC872F0F38}|..\\Auth\\AuthShared\\AuthShared.csproj|c:\\users\\abady\\source\\repos\\auth\\authshared\\models\\trainneshared.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7ADAB4F6-EFB6-4168-933B-4CCB88931219}|..\\Auth\\AuthServer\\AuthServer.csproj|c:\\users\\abady\\source\\repos\\auth\\authserver\\controllers\\violationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7ADAB4F6-EFB6-4168-933B-4CCB88931219}|..\\Auth\\AuthServer\\AuthServer.csproj|c:\\users\\abady\\source\\repos\\auth\\authserver\\data\\appuserdatacontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7ADAB4F6-EFB6-4168-933B-4CCB88931219}|..\\Auth\\AuthServer\\AuthServer.csproj|c:\\users\\abady\\source\\repos\\auth\\authserver\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4A899502-9237-4AB2-B273-9449CDC24D96}|SafeOpsBlazor\\SafeOpsBlazor.csproj|c:\\users\\abady\\source\\repos\\safeopsblazor\\safeopsblazor\\components\\trainee\\traineesmanagement.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4A899502-9237-4AB2-B273-9449CDC24D96}|SafeOpsBlazor\\SafeOpsBlazor.csproj|solutionrelative:safeopsblazor\\components\\trainee\\traineesmanagement.razor||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7ADAB4F6-EFB6-4168-933B-4CCB88931219}|..\\Auth\\AuthServer\\AuthServer.csproj|c:\\users\\abady\\source\\repos\\auth\\authserver\\controllers\\traineecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 14,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0ad07096-bba9-4900-a651-0598d26f6d24}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{28836128-fc2c-11d2-a433-00c04f72d18a}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{f5cd1b51-c771-5648-966f-646d419b1e7c}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{e5c86464-96be-4d7c-9a8b-abcb3bbf5f92}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Routes.razor",
+              "DocumentMoniker": "C:\\Users\\Abady\\source\\repos\\SafeOpsBlazor\\SafeOpsBlazor\\Components\\Routes.razor",
+              "RelativeDocumentMoniker": "SafeOpsBlazor\\Components\\Routes.razor",
+              "ToolTip": "C:\\Users\\Abady\\source\\repos\\SafeOpsBlazor\\SafeOpsBlazor\\Components\\Routes.razor",
+              "RelativeToolTip": "SafeOpsBlazor\\Components\\Routes.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-30T23:17:06.559Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "MainLayout.razor",
+              "DocumentMoniker": "C:\\Users\\Abady\\source\\repos\\SafeOpsBlazor\\SafeOpsBlazor\\Components\\Layout\\MainLayout.razor",
+              "RelativeDocumentMoniker": "SafeOpsBlazor\\Components\\Layout\\MainLayout.razor",
+              "ToolTip": "C:\\Users\\Abady\\source\\repos\\SafeOpsBlazor\\SafeOpsBlazor\\Components\\Layout\\MainLayout.razor",
+              "RelativeToolTip": "SafeOpsBlazor\\Components\\Layout\\MainLayout.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAsAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-30T23:16:51.669Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Home.razor",
+              "DocumentMoniker": "C:\\Users\\Abady\\source\\repos\\SafeOpsBlazor\\SafeOpsBlazor\\Components\\Pages\\Home.razor",
+              "RelativeDocumentMoniker": "SafeOpsBlazor\\Components\\Pages\\Home.razor",
+              "ToolTip": "C:\\Users\\Abady\\source\\repos\\SafeOpsBlazor\\SafeOpsBlazor\\Components\\Pages\\Home.razor",
+              "RelativeToolTip": "SafeOpsBlazor\\Components\\Pages\\Home.razor",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAABLAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-30T23:16:16.78Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "NavMenu.razor",
+              "DocumentMoniker": "C:\\Users\\Abady\\source\\repos\\SafeOpsBlazor\\SafeOpsBlazor\\Components\\Layout\\NavMenu.razor",
+              "RelativeDocumentMoniker": "SafeOpsBlazor\\Components\\Layout\\NavMenu.razor",
+              "ToolTip": "C:\\Users\\Abady\\source\\repos\\SafeOpsBlazor\\SafeOpsBlazor\\Components\\Layout\\NavMenu.razor",
+              "RelativeToolTip": "SafeOpsBlazor\\Components\\Layout\\NavMenu.razor",
+              "ViewState": "AgIAAKMAAAAAAAAAAAAowKwAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-30T23:12:56.78Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Login.razor",
+              "DocumentMoniker": "C:\\Users\\Abady\\source\\repos\\SafeOpsBlazor\\SafeOpsBlazor\\Components\\Pages\\Auth\\Login.razor",
+              "RelativeDocumentMoniker": "SafeOpsBlazor\\Components\\Pages\\Auth\\Login.razor",
+              "ToolTip": "C:\\Users\\Abady\\source\\repos\\SafeOpsBlazor\\SafeOpsBlazor\\Components\\Pages\\Auth\\Login.razor",
+              "RelativeToolTip": "SafeOpsBlazor\\Components\\Pages\\Auth\\Login.razor",
+              "ViewState": "AgIAAEgAAAAAAAAAAAAAAFoAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-30T23:08:42.181Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ApiAuthenticationStateProvider.cs",
+              "DocumentMoniker": "C:\\Users\\Abady\\source\\repos\\SafeOpsBlazor\\SafeOpsBlazor\\Handler\\ApiAuthenticationStateProvider.cs",
+              "RelativeDocumentMoniker": "SafeOpsBlazor\\Handler\\ApiAuthenticationStateProvider.cs",
+              "ToolTip": "C:\\Users\\Abady\\source\\repos\\SafeOpsBlazor\\SafeOpsBlazor\\Handler\\ApiAuthenticationStateProvider.cs",
+              "RelativeToolTip": "SafeOpsBlazor\\Handler\\ApiAuthenticationStateProvider.cs",
+              "ViewState": "AgIAAEYAAAAAAAAAAAAAAFIAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-30T23:07:46.16Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "MaintenanceOrders.razor",
+              "DocumentMoniker": "C:\\Users\\Abady\\source\\repos\\SafeOpsBlazor\\SafeOpsBlazor\\Components\\Pages\\Maintenance\\MaintenanceOrders.razor",
+              "RelativeDocumentMoniker": "SafeOpsBlazor\\Components\\Pages\\Maintenance\\MaintenanceOrders.razor",
+              "ToolTip": "C:\\Users\\Abady\\source\\repos\\SafeOpsBlazor\\SafeOpsBlazor\\Components\\Pages\\Maintenance\\MaintenanceOrders.razor",
+              "RelativeToolTip": "SafeOpsBlazor\\Components\\Pages\\Maintenance\\MaintenanceOrders.razor",
+              "ViewState": "AgIAAFsAAAAAAAAAAAASwGYAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-30T23:04:18.025Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "TrainneShared.cs",
+              "DocumentMoniker": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthShared\\Models\\TrainneShared.cs",
+              "RelativeDocumentMoniker": "..\\Auth\\AuthShared\\Models\\TrainneShared.cs",
+              "ToolTip": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthShared\\Models\\TrainneShared.cs",
+              "RelativeToolTip": "..\\Auth\\AuthShared\\Models\\TrainneShared.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAQwB4AAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-30T22:33:50.584Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "InfrigementShared.cs",
+              "DocumentMoniker": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthShared\\Models\\InfrigementShared.cs",
+              "RelativeDocumentMoniker": "..\\Auth\\AuthShared\\Models\\InfrigementShared.cs",
+              "ToolTip": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthShared\\Models\\InfrigementShared.cs",
+              "RelativeToolTip": "..\\Auth\\AuthShared\\Models\\InfrigementShared.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAcwBkAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-30T22:33:16.738Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "TraineeProcedures.cs",
+              "DocumentMoniker": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\Procedures\\TraineeProcedures.cs",
+              "RelativeDocumentMoniker": "..\\Auth\\AuthServer\\Procedures\\TraineeProcedures.cs",
+              "ToolTip": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\Procedures\\TraineeProcedures.cs",
+              "RelativeToolTip": "..\\Auth\\AuthServer\\Procedures\\TraineeProcedures.cs",
+              "ViewState": "AgIAAJQAAAAAAAAAAAAAAKcAAAAmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-30T21:56:08.412Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "InfrigementProcedures.cs",
+              "DocumentMoniker": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\Procedures\\InfrigementProcedures.cs",
+              "RelativeDocumentMoniker": "..\\Auth\\AuthServer\\Procedures\\InfrigementProcedures.cs",
+              "ToolTip": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\Procedures\\InfrigementProcedures.cs",
+              "RelativeToolTip": "..\\Auth\\AuthServer\\Procedures\\InfrigementProcedures.cs",
+              "ViewState": "AgIAACQBAAAAAAAAAAAiwDABAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-30T21:56:08.421Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\Data\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "..\\Auth\\AuthServer\\Data\\ApplicationDbContext.cs",
+              "ToolTip": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\Data\\ApplicationDbContext.cs",
+              "RelativeToolTip": "..\\Auth\\AuthServer\\Data\\ApplicationDbContext.cs",
+              "ViewState": "AgIAAEIBAAAAAAAAAAASwFMBAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-30T21:56:08.453Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "UserProfile.razor",
+              "DocumentMoniker": "C:\\Users\\Abady\\source\\repos\\SafeOpsBlazor\\SafeOpsBlazor\\Components\\User\\UserProfile.razor",
+              "RelativeDocumentMoniker": "SafeOpsBlazor\\Components\\User\\UserProfile.razor",
+              "ToolTip": "C:\\Users\\Abady\\source\\repos\\SafeOpsBlazor\\SafeOpsBlazor\\Components\\User\\UserProfile.razor",
+              "RelativeToolTip": "SafeOpsBlazor\\Components\\User\\UserProfile.razor",
+              "ViewState": "AgIAAKIAAAAAAAAAAAAAAKwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-30T21:56:08.516Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "AppUserDataContext.cs",
+              "DocumentMoniker": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\Data\\AppUserDataContext.cs",
+              "RelativeDocumentMoniker": "..\\Auth\\AuthServer\\Data\\AppUserDataContext.cs",
+              "ToolTip": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\Data\\AppUserDataContext.cs",
+              "RelativeToolTip": "..\\Auth\\AuthServer\\Data\\AppUserDataContext.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAqwB0AAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-30T21:56:08.527Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "TraineesManagement.razor",
+              "DocumentMoniker": "C:\\Users\\Abady\\source\\repos\\SafeOpsBlazor\\SafeOpsBlazor\\Components\\Trainee\\TraineesManagement.razor",
+              "RelativeDocumentMoniker": "SafeOpsBlazor\\Components\\Trainee\\TraineesManagement.razor",
+              "ToolTip": "C:\\Users\\Abady\\source\\repos\\SafeOpsBlazor\\SafeOpsBlazor\\Components\\Trainee\\TraineesManagement.razor",
+              "RelativeToolTip": "SafeOpsBlazor\\Components\\Trainee\\TraineesManagement.razor",
+              "ViewState": "AgIAAEIDAAAAAAAAAAAAAFADAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-30T21:56:08.536Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "TraineeViolations.razor",
+              "DocumentMoniker": "C:\\Users\\Abady\\source\\repos\\SafeOpsBlazor\\SafeOpsBlazor\\Components\\Pages\\Violation\\TraineeViolations.razor",
+              "RelativeDocumentMoniker": "SafeOpsBlazor\\Components\\Pages\\Violation\\TraineeViolations.razor",
+              "ToolTip": "C:\\Users\\Abady\\source\\repos\\SafeOpsBlazor\\SafeOpsBlazor\\Components\\Pages\\Violation\\TraineeViolations.razor",
+              "RelativeToolTip": "SafeOpsBlazor\\Components\\Pages\\Violation\\TraineeViolations.razor",
+              "ViewState": "AgIAAN4CAAAAAAAAAAAowPYCAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-12-30T21:52:06.112Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "ViolationController.cs",
+              "DocumentMoniker": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\Controllers\\ViolationController.cs",
+              "RelativeDocumentMoniker": "..\\Auth\\AuthServer\\Controllers\\ViolationController.cs",
+              "ToolTip": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\Controllers\\ViolationController.cs",
+              "RelativeToolTip": "..\\Auth\\AuthServer\\Controllers\\ViolationController.cs",
+              "ViewState": "AgIAAOsAAAAAAAAAAAAAAPIAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-30T21:50:39.766Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "TraineeController.cs",
+              "DocumentMoniker": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\Controllers\\TraineeController.cs",
+              "RelativeDocumentMoniker": "..\\Auth\\AuthServer\\Controllers\\TraineeController.cs",
+              "ToolTip": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\Controllers\\TraineeController.cs",
+              "RelativeToolTip": "..\\Auth\\AuthServer\\Controllers\\TraineeController.cs",
+              "ViewState": "AgIAAH0AAAAAAAAAAAAAALgAAABIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-30T21:50:34.061Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "ViolationClientService.cs",
+              "DocumentMoniker": "C:\\Users\\Abady\\source\\repos\\SafeOpsBlazor\\SafeOpsBlazor\\Service\\ViolationClientService.cs",
+              "RelativeDocumentMoniker": "SafeOpsBlazor\\Service\\ViolationClientService.cs",
+              "ToolTip": "C:\\Users\\Abady\\source\\repos\\SafeOpsBlazor\\SafeOpsBlazor\\Service\\ViolationClientService.cs",
+              "RelativeToolTip": "SafeOpsBlazor\\Service\\ViolationClientService.cs",
+              "ViewState": "AgIAAAgBAAAAAAAAAAAAABYBAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-30T21:25:26.463Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

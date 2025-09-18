@@ -1,0 +1,281 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Files\\139345.jpeg",
+      "PackagePath": "staticwebassets\\Uploads\\Files\\139345.jpeg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Files\\147158.rar",
+      "PackagePath": "staticwebassets\\Uploads\\Files\\147158.rar"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Files\\15738.rar",
+      "PackagePath": "staticwebassets\\Uploads\\Files\\15738.rar"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Files\\165825.rar",
+      "PackagePath": "staticwebassets\\Uploads\\Files\\165825.rar"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Files\\229292.rar",
+      "PackagePath": "staticwebassets\\Uploads\\Files\\229292.rar"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Files\\283841.rar",
+      "PackagePath": "staticwebassets\\Uploads\\Files\\283841.rar"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Files\\33835.rar",
+      "PackagePath": "staticwebassets\\Uploads\\Files\\33835.rar"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Files\\33938.rar",
+      "PackagePath": "staticwebassets\\Uploads\\Files\\33938.rar"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Files\\420105.rar",
+      "PackagePath": "staticwebassets\\Uploads\\Files\\420105.rar"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Files\\449904.rar",
+      "PackagePath": "staticwebassets\\Uploads\\Files\\449904.rar"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Files\\498166.rar",
+      "PackagePath": "staticwebassets\\Uploads\\Files\\498166.rar"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Files\\594731.rar",
+      "PackagePath": "staticwebassets\\Uploads\\Files\\594731.rar"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Files\\800234.rar",
+      "PackagePath": "staticwebassets\\Uploads\\Files\\800234.rar"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Files\\905225.rar",
+      "PackagePath": "staticwebassets\\Uploads\\Files\\905225.rar"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Files\\966705.rar",
+      "PackagePath": "staticwebassets\\Uploads\\Files\\966705.rar"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\112766.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\112766.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\128139.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\128139.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\150362.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\150362.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\161594.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\161594.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\179858.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\179858.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\222582.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\222582.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\229087.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\229087.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\229895.png",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\229895.png"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\234398.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\234398.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\260448.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\260448.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\309328.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\309328.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\325304.png",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\325304.png"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\416263.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\416263.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\500845.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\500845.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\501681.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\501681.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\549753.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\549753.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\596732.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\596732.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\599666.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\599666.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\616999.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\616999.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\628294.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\628294.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\639359.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\639359.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\69740.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\69740.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\709647.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\709647.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\712687.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\712687.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\71475.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\71475.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\725410.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\725410.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\730333.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\730333.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\738805.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\738805.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\739642.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\739642.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\743582.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\743582.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\753711",
+      "PackagePath": "staticwebassets\\Uploads\\Images"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\761302.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\761302.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\771209.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\771209.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\77591.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\77591.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\77707.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\77707.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\791391.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\791391.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\829846.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\829846.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\839306.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\839306.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\841136.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\841136.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\841513.png",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\841513.png"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\868234.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\868234.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\870231.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\870231.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\87909.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\87909.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\891770.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\891770.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\898182.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\898182.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\915513.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\915513.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\937816.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\937816.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\952142.jpg",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\952142.jpg"
+    },
+    {
+      "Id": "C:\\Users\\Abady\\source\\repos\\Auth\\AuthServer\\wwwroot\\Uploads\\Images\\numbers_icon.png",
+      "PackagePath": "staticwebassets\\Uploads\\Images\\numbers_icon.png"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.AuthServer.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.AuthServer.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.AuthServer.props",
+      "PackagePath": "build\\AuthServer.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.AuthServer.props",
+      "PackagePath": "buildMultiTargeting\\AuthServer.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.AuthServer.props",
+      "PackagePath": "buildTransitive\\AuthServer.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

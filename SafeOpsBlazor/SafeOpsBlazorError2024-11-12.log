@@ -1,0 +1,30 @@
+
+
+Date:2024-11-12 02:02:51,172
+Thread:[1]
+Level:ERROR
+Logger:SyncfusionInsertCodeBase.ProjectWizardBase                         [(null)]
+Message:System.IO.FileNotFoundException: Could not find file 'C:\Users\Abady\source\repos\SafeOpsBlazor\SafeOpsBlazor\Program.cs'.
+File name: 'C:\Users\Abady\source\repos\SafeOpsBlazor\SafeOpsBlazor\Program.cs'
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
+   at System.IO.File.InternalReadAllText(String path, Encoding encoding, Boolean checkHost)
+   at SyncfusionInsertCodeBase.ProjectWizardBase.WebAppType(Project wizardproject) in C:\Git\RP\vsext_insertblazorcode\SyncfusionBlazorcodegeneratorBase\ProjectWizardBase.cs:line 294
+   at SyncfusionInsertCodeBase.ProjectWizardBase.GetProductListWithFeatures_BlazorCodeInsertion(XDocument doc, XDocument dataBindingXml, IEnumerable`1 ModelTypes, IEnumerable`1 DbContexts, String selectedProjectType, Project wizardProject) in C:\Git\RP\vsext_insertblazorcode\SyncfusionBlazorcodegeneratorBase\ProjectWizardBase.cs:line 1445
+
+
+Date:2024-11-12 02:02:51,252
+Thread:[1]
+Level:ERROR
+Logger:SyncfusionInsertCodeBase.ProjectWizardBase                         [(null)]
+Message:System.IO.FileNotFoundException: Could not find file 'C:\Users\Abady\source\repos\SafeOpsBlazor\SafeOpsBlazor\Program.cs'.
+File name: 'C:\Users\Abady\source\repos\SafeOpsBlazor\SafeOpsBlazor\Program.cs'
+   at System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   at System.IO.FileStream.Init(String path, FileMode mode, FileAccess access, Int32 rights, Boolean useRights, FileShare share, Int32 bufferSize, FileOptions options, SECURITY_ATTRIBUTES secAttrs, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.FileStream..ctor(String path, FileMode mode, FileAccess access, FileShare share, Int32 bufferSize, FileOptions options, String msgPath, Boolean bFromProxy, Boolean useLongPath, Boolean checkHost)
+   at System.IO.StreamReader..ctor(String path, Encoding encoding, Boolean detectEncodingFromByteOrderMarks, Int32 bufferSize, Boolean checkHost)
+   at System.IO.File.InternalReadAllText(String path, Encoding encoding, Boolean checkHost)
+   at SyncfusionInsertCodeBase.ProjectWizardBase.WebAppType(Project wizardproject) in C:\Git\RP\vsext_insertblazorcode\SyncfusionBlazorcodegeneratorBase\ProjectWizardBase.cs:line 294
+   at SyncfusionInsertCodeBase.ProjectWizardBase.GetProductListWithFeatures_BlazorCodeInsertion(XDocument doc, XDocument dataBindingXml, IEnumerable`1 ModelTypes, IEnumerable`1 DbContexts, String selectedProjectType, Project wizardProject) in C:\Git\RP\vsext_insertblazorcode\SyncfusionBlazorcodegeneratorBase\ProjectWizardBase.cs:line 1445

@@ -1,0 +1,349 @@
+﻿@page "/admin/user-register"
+@using SafeOpsBlazor.Model
+@using SafeOpsBlazor.Service
+@inject IStringLocalizer<Lang> Localizer
+@inject MajorClientService majorClientService
+@inject SectionClientService sectionClientService
+@inject AuthService authService
+@inject ToastService toastService
+@inject RoleClientService roleClientService
+
+
+<!--Messages-->
+<SfToast ID="toast_default" @ref="sfToast">
+
+</SfToast>
+
+<!--end Messages-->
+<div class="container-fluid">
+    <div class="row mb-2">
+        <div class="col-12">
+            <SfSpinner @bind-Visible="IsBusy">
+            </SfSpinner>
+        </div>
+    </div>
+</div>
+
+
+
+<!--while the page busy we need to change the main div display-->
+<div style="display:@mainDivDisplayType.ToString() !important;"
+
+  <AuthorizeView Roles="Admin">
+
+                <Authorized>
+                    <div class="container d-relative mt-5" style="">
+                        <div class="row mb-2 d-flex d-xl-flex justify-content-center justify-content-xl-center">
+                            <div class="col-sm-12 col-lg-10 col-xl-9 col-xxl-7 bg-white shadow-lg" style="border-radius: 5px;">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h4 class="text-dark mb-4">@Localizer["CreateAccount"]!</h4>
+                                    </div>
+
+                                    <EditForm Model="registerModel" OnValidSubmit="OnValidSubmit" class="user">
+                                        <ChildContent Context="contextEditForm">
+                                        <DataAnnotationsValidator/>
+                                        <ValidationSummary/>
+                                        <div class="">
+                                            <InputText @bind-Value="registerModel.Username" name="username" class="form-control form-control-user" type="text" placeholder="@Localizer["UserName"]" required/>
+                                            <ValidationMessage For="() => registerModel.Username"></ValidationMessage>
+                                        </div>
+                                        <div class="">
+                                            <InputText @bind-Value="registerModel.JobNumber" name="jobnumber" class="form-control form-control-user" type="text" placeholder="@Localizer["JobNumber"]" required/>
+                                            <ValidationMessage For="() => registerModel.JobNumber"></ValidationMessage>
+                                        </div>
+                                        <div class="">
+                                            <InputText @bind-Value="registerModel.Email" name="email" id="email" class="form-control form-control-user" type="email" placeholder="@Localizer["EmailAddress"]" required/>
+                                            <ValidationMessage For="() => registerModel.Email"></ValidationMessage>
+                                        </div>
+                                        <div class="row mb-2 ">
+                                            <div class="col-sm-6  mb-sm-0">
+                                                <InputText @bind-Value="registerModel.FirstName" name="firstname" class="form-control form-control-user" type="text" placeholder="@Localizer["FirstName"]" required/>
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <InputText @bind-Value="registerModel.MiddleName" name="middlename" class="form-control form-control-user" type="text" placeholder="@Localizer["MiddleName"]" required/>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2 ">
+                                            <div class="col-sm-6  mb-sm-0">
+                                                <InputText @bind-Value="registerModel.LastName" name="lastname" class="form-control form-control-user" type="text" placeholder="@Localizer["LastName"]" required/>
+                                                <ValidationMessage For="() => registerModel.LastName"></ValidationMessage>
+
+                                            </div>
+                                            <div class="col-sm-6">
+                                                <InputText @bind-Value="registerModel.PhoneNumber" name="phonenumber" class="form-control form-control-user" type="text" placeholder="@Localizer["PhoneNumber"].Value" required/>
+                                                <ValidationMessage For="() => registerModel.PhoneNumber"></ValidationMessage>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-2">
+                                            <div class="col-sm-6  mb-sm-0">
+                                                <InputText @bind-Value="registerModel.phoneCode" name="phonecode" class="form-control form-control-user" type="text" placeholder="@Localizer["PhoneCode"]" required/>
+                                                <ValidationMessage For="() => registerModel.phoneCode"></ValidationMessage>
+                                            </div>
+                                            <div class="col-sm-12">
+                                                <div id="floating-label-1" class="form-floating mb-1">
+                                                    <InputSelect @bind-Value="registerModel.SectionId"
+                                                                 class="form-select" for="floatinginput" placeholder="HGsOFT" required>
+                                                        <!--C# Code-->
+                                                        <optgroup label="@Localizer["GroupSection"]">
+                                                        @if (sections != null)
+                                                        {
+                                                            foreach (var _section in sections)
+                                                            {
+
+                                                                         <option selcted value="@_section.id">@_section.name</option>
+                                                            }
+                                                        }
+
+                                                        </optgroup>
+
+                                                    </InputSelect>
+
+
+
+                                                    <label id="floating-label-2" class="form-label" for="floatinginput">@Localizer["Select"] ...</label>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-2">
+                                            <div class="col-sm-12">
+                                                <div id="floating-label-1" class="form-floating">
+                                                    <InputSelect @bind-Value="registerModel.MajorId"
+                                                                 class="form-select" for="floatinginput" placeholder="HGsOFT" required>
+                                                        <!--C# Code-->
+                                                        <optgroup label="@Localizer["GroupSection"]">
+                                                        @if (majors != null)
+                                                        {
+                                                            foreach (var _major in majors)
+                                                            {
+                                                                      <option value="@_major.id">@_major.name</option>
+                                                            }
+                                                        }
+
+                                                        </optgroup>
+
+                                                    </InputSelect>
+
+                                                        <InputSelect @bind-Value="registerModel.Role"
+                                                                 class="form-select" for="floatinginput" placeholder="HGsOFT" required>
+                                                        <!--C# Code-->
+                                                        <optgroup label="@Localizer["Role"]">
+                                                        @if (roleSharedModels != null)
+                                                        {
+                                                            foreach (var role in roleSharedModels)
+                                                            {
+                                                                     <option value="@role.Name">@role.Name</option>
+                                                            }
+                                                        }
+
+                                                        </optgroup>
+
+                                                    </InputSelect>
+
+
+
+                                                    <label id="floating-label-2" class="form-label" for="floatinginput">@Localizer["Select"] ...</label>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-2 ">
+                                            <p id="emailErrorMsg" class="text-danger" style="display: none;">Paragraph</p>
+                                            <p id="passwordErrorMsg" class="text-danger" style="display: none;">Paragraph</p>
+                                        </div>
+                                        <SfSpinner @bind-Visible="IsBusy"/>
+                                        <button style="display:@buttonDisplayType.ToString() !important;" id="submitBtn" class="btn btn-primary btn-user w-100" type="submit">
+                                        @Localizer["RegisterAccount"]
+                                        </button>
+                                        <hr/>
+
+
+                                        </ChildContent>
+
+                                    </EditForm>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                        </div>
+                    </div>
+                </Authorized>
+
+            </AuthorizeView>
+</div>
+
+@code {
+
+    #region Fields
+
+    private RegisterModelShared registerModel = new();
+    private RegisterHelper registerHelper = new();
+
+    private IEnumerable<SectionSharedModel> sections;
+    private IEnumerable<MajorSharedModel> majors;
+
+    private DisplayType mainDivDisplayType = DisplayType.none;
+    private DisplayType buttonDisplayType = DisplayType.block;
+
+
+    //role
+    private IEnumerable<RoleSharedModel> roleSharedModels;
+
+    #endregion
+
+
+    #region Properties
+    private bool IsBusy { get; set; }
+    private SfToast sfToast;
+
+    #endregion
+
+
+
+
+    #region Methods
+
+
+    async Task<IEnumerable<RoleSharedModel>> GetRoleSharedModels()
+    {
+        var roles = await roleClientService.GetRolesAsync();
+
+        if (roles is null || roles.ToList().Count <= 0)
+        {
+            await toastService.ShowError(sfToast, Localizer["CannotGetRoles"], Localizer["Error"]);
+            return null;
+        }
+
+        else
+        {
+            return roles;
+        }
+    }
+
+
+    void AssignDefaultValues()
+    {
+
+        if (majors is not null)
+        {
+
+            registerModel.MajorId = majors.FirstOrDefault().id;
+        }
+
+        if (sections is not null)
+        {
+            registerModel.SectionId = sections.FirstOrDefault().id;
+        }
+
+        if (roleSharedModels is not null)
+        {
+            registerModel.Role = roleSharedModels.FirstOrDefault().Name;
+        }
+    }
+
+    private async Task OnValidSubmit()
+    {
+        IsBusy = true;
+        buttonDisplayType = DisplayType.none;
+        ServerResponse serverResponse =  await authService.Register(registerModel);
+
+
+        //to check the reponse from server
+        switch (serverResponse.Status)
+        {
+            case 200:
+                await toastService.ShowSuccess(sfToast,Localizer["Success"], Localizer["RegisterMessage"]);
+                registerModel = new RegisterModelShared();
+                break;
+
+            case 400:
+
+                await toastService.ShowWarning(sfToast,serverResponse.Detail, Localizer["RegisterMessage"]);
+
+
+                break;
+
+            case 500:
+
+                await toastService.ShowError(sfToast,Localizer["ErrorOccured"], Localizer["RegisterMessage"]);
+
+                break;
+
+            default:
+
+                await toastService.ShowError(sfToast,Localizer["ErrorOccured"], Localizer["RegisterMessage"]);
+
+
+                break;
+
+        }
+
+
+        IsBusy = false;
+        buttonDisplayType = DisplayType.block;
+    }
+
+
+    private async  Task<IEnumerable<SectionSharedModel>> GetSections()
+    {
+        return await sectionClientService.GetAllSections();
+    }
+
+    private async Task<IEnumerable<MajorSharedModel>> GetMajors()
+    {
+        return await majorClientService.GetAllMajors();
+    }
+
+
+
+    #endregion
+
+    #region Overrides
+
+    protected async override Task OnInitializedAsync()
+    {
+
+        Task.Run(async () =>
+        {
+
+            mainDivDisplayType = DisplayType.none;
+            IsBusy = true;
+
+            await InvokeAsync(StateHasChanged);
+            roleSharedModels = await GetRoleSharedModels();
+            sections = await GetSections();
+            majors = await GetMajors();
+            AssignDefaultValues();
+            IsBusy = false;
+            mainDivDisplayType = DisplayType.block;
+
+            await InvokeAsync(StateHasChanged);
+
+        });
+
+
+        //assign registerHelper with registerModel
+// #if DEBUG
+//     registerModel = registerHelper.RandomRegisterModelSharedValue;
+// #endif
+    }
+
+
+    #endregion
+
+
+
+
+
+    #region Styles Parameters
+
+
+
+    #endregion
+
+}

@@ -1,0 +1,21 @@
+﻿@inherits LayoutComponentBase
+
+
+<div class="page">
+    
+    <NavMenu/>
+
+    <main>
+        <CascadingValue Value="SearchText">
+        <article class="content px-4 w-100">
+            @Body
+        </article>
+        </CascadingValue>
+    </main>
+</div>
+
+
+
+@code{
+    public string SearchText { get; set; }
+}

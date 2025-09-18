@@ -1,0 +1,1028 @@
+﻿@page "/trainee-violations/{ViolationId:int}"
+@inject IStringLocalizer<Lang> Localizer
+@inject ViolationClientService ViolationClientService
+@inject IJSRuntime jsRuntime
+@inject TraineeDataService traineeDataService
+@inject ToastService toastService
+@inject IConfiguration configuration
+
+
+<AuthorizeView> 
+
+    @* If not authorized , the user will navigate to the login page *@
+
+    <NotAuthorized>
+
+      <RedirectToLogin/>
+    </NotAuthorized>
+
+
+    <Authorized>
+
+
+        <p style="display:@somethingWentWrongDisplayType.ToString() !important;">Sorry but sometheing went wrong</p>
+
+        @* spinner *@
+        <SfSpinner Size="50" Visible="isBusy" />
+        
+
+
+    <div style="display:@mainContainerDisplayType.ToString() !important;" class="container-fluid">     
+@* toast message  *@
+
+<SfToast @ref="toast" />
+
+
+
+
+@* modal violation Procedures  *@
+
+        <Modal @ref="modalViolationProcedures">
+
+    <Header>
+
+    </Header> 
+
+    <Body>
+               <div class="w-100" style="height:200px;overflow-y:scroll;">
+                @if (violationProcedureSharedModels is not null)
+                {
+                    @foreach (var item in violationProcedureSharedModels)
+                    {
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">@item.Title</h4>
+                                <h6 class="text-muted card-subtitle mb-2">@item.RegulationId</h6>
+                                <p class="card-text"> @item.Description</p>
+                            </div>
+
+                        </div>
+                    }
+
+                 }
+
+                </div>
+
+
+    </Body>
+
+    <Footer>
+
+    </Footer>
+
+</Modal>
+
+@* end of violation Procedure *@
+
+@* modal trainee (add,edit,view) violation *@
+
+<ModalForm OnVaildSubmit="OnValidSubmit" FormModel="infringementShared" @ref="modal" Title="@Localizer["Form"]">
+
+    <Header>
+
+    </Header>
+
+    <Body>
+
+        <SfSpinner Size="50" Visible="isBusy" />
+
+                @if(modalViewMode == ModalViewMode.View)
+                {
+                    <SfDataForm ID="MyForm" Width="100%"
+                                Model="@selectedInfringementShared">
+                        <FormItems>
+                            <FormItem Field="@nameof(selectedInfringementShared.Id)" IsEnabled="false" LabelText="@Localizer["Id"]"></FormItem>
+                            <FormItem Field="@nameof(selectedInfringementShared.InfringementProcess)" IsEnabled="false" LabelText="@Localizer["InfringementProcess"]"></FormItem>
+                            <FormItem Field="@nameof(selectedInfringementShared.InfringementCount)" IsEnabled="false" LabelText="@Localizer["InfringementCount"]"></FormItem>
+                            <FormItem Field="@nameof(selectedInfringementShared.IsTraineeReported)" IsEnabled="false" LabelText="@Localizer["IsTraineeReported"]"></FormItem>
+                            <FormItem Field="@nameof(selectedInfringementShared.IsViolationProceedByTrainee)" IsEnabled="false" LabelText="@Localizer["IsViolationProceedByTrainee"]"></FormItem>
+                            <FormItem Field="@nameof(selectedInfringementShared.Rate)" IsEnabled="false" LabelText="@Localizer["Rate"]"></FormItem>
+                            <FormItem EditorType="FormEditorType.TextArea" Field="@nameof(selectedInfringementShared.InfrigementNote)" IsEnabled="false" LabelText="@Localizer["Notes"]"></FormItem>
+
+
+
+                        </FormItems>
+
+
+                        <FormButtons>
+
+                        </FormButtons>
+                    </SfDataForm>
+                }
+
+
+
+                @if(modalViewMode == ModalViewMode.Add || modalViewMode == ModalViewMode.Edit)
+                {
+
+                   <div class="input-group mb-1">
+                             <span class="input-group-text">@Localizer["TraineeName"]</span>
+                    <input value="@traineeDataService.TraineeSharedData.Name" disabled class="form-control" type="text" />
+                    </div>
+                <div class="input-group mb-1">
+
+                    <span class="input-group-text">@Localizer["ViolationRate"]</span>
+
+            <InputSelect ValueChanged="(int value) => OnSelectionChangeinfringementRate(value)" 
+                ValueExpression="() => infringementShared.Rate"
+                         Value="infringementShared.Rate"
+                class="form-select">
+
+                <optgroup label="This is a group">
+                    @if (infringementRateSharedModels != null)
+                    {
+                        foreach (var item in infringementRateSharedModels)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    }
+                </optgroup>
+
+            </InputSelect>
+                </div>
+
+        @if(regulationsSharedModels != null && regulationsSharedModels.Count > 0)
+        {
+
+        <div class="input-group mb-1">
+
+                        <span class="input-group-text">@Localizer["RegulationId"]</span>
+
+
+            <InputSelect @bind-Value="infringementShared.RegulationId"
+                         class="form-select">
+
+                <optgroup label="This is a group">
+                    @if (regulationsSharedModels != null)
+                    {
+                        foreach (var item in regulationsSharedModels)
+                        {
+                            <option value="@item.Id">@item.Title</option>
+                        }
+                    }
+                </optgroup>
+
+            </InputSelect>
+
+        </div>
+
+        }
+
+                <div class="input-group mb-1">
+                    <span class="input-group-text">@Localizer["IsTraineeReported"]?</span>
+                        <div class="input-group-text btn-group" role="group">
+                            <InputRadioGroup TValue="bool" Name="TraineReport" @bind-Value="infringementShared.IsTraineeReported">
+                                <InputRadio TValue="bool" Value="true" id="traineeReport-yes" class="btn-check" type="radio" autocomplete="off" />
+                                <label class="form-label btn btn-outline-primary" for="traineeReport-yes">@Localizer["Yes"]</label>
+
+                                <InputRadio TValue="bool" Value="false" id="traineeReport-no" class="btn-check" type="radio" autocomplete="off" />
+                                <label class="form-label btn btn-outline-primary" for="traineeReport-no">@Localizer["No"]</label>
+                            </InputRadioGroup>
+                        </div>
+
+                </div>
+
+                <div class="input-group mb-1">
+                    <span class="input-group-text">@Localizer["IsViolationProceedByTrainee"]?</span>
+
+                        <div class="input-group-text btn-group" role="group">
+                            <InputRadioGroup Name="TraineeInform" TValue="bool" @bind-Value="infringementShared.IsViolationProceedByTrainee">
+                                <InputRadio TValue="bool" Value="true" id="traineeInform-yes" class="btn-check" type="radio" autocomplete="off" />
+                                <label class="form-label btn btn-outline-primary" for="traineeInform-yes">@Localizer["Yes"]</label>
+
+                                <InputRadio TValue="bool" Value="false" id="traineeInform-no" class="btn-check" type="radio" autocomplete="off" />
+                            <label class="form-label btn btn-outline-primary" for="traineeInform-no">@Localizer["No"]</label>
+                            </InputRadioGroup>
+                        </div>
+
+                </div>
+
+                <div class="input-group mb-1">
+                    <span class="input-group-text">@Localizer["DoYouWantForwardViolation"]?</span>
+
+                        <InputRadioGroup Name="ViolationForward" TValue="bool" @bind-Value="isViolationForwarded">
+                           
+                            <InputRadio TValue="bool" Value="true" id="forward-yes" class="btn-check" type="radio" autocomplete="off" />
+                            <label class="form-label btn btn-outline-primary" for="forward-yes">@Localizer["Yes"]</label>
+
+                      
+                            <InputRadio TValue="bool" Value="false" id="forward-no" class="btn-check" type="radio" autocomplete="off" />
+                        <label class="form-label btn btn-outline-primary" for="forward-no">@Localizer["No"]</label>
+                        </InputRadioGroup>
+
+                </div>
+
+                @if(isViolationForwarded)
+                {
+
+                <div class="input-group mb-1">
+                    <span class="input-group-text">@Localizer["Forward"]</span>
+
+                        <InputSelect @bind-Value="FowardOption" class="form-select">
+                            <optgroup label="@Localizer["ForwardOptions"]">
+                            <option value="1" selected>@Localizer["HeadSection"]</option>
+                                <option value="2">@Localizer["Trainees Affairs Agency"]</option>
+                        </optgroup>
+
+                        </InputSelect>
+                  
+                </div>
+
+                }
+
+                <div class="input-group mb-1">
+                    <span class="input-group-text">@Localizer["DoYouWantCloseViolation"]?</span>
+                        <div class="input-group-text btn-group" role="group">
+
+                            <InputRadioGroup Name="CloseInfrigement" TValue="CloseAnswerOptions" @bind-Value="closeInfrigement">
+
+                               
+                                <InputRadio TValue="CloseAnswerOptions" Value="CloseAnswerOptions.Yes" id="group5-yes" class="btn-check" type="radio" autocomplete="off" />
+                                <label class="form-label btn btn-outline-primary" for="group5-yes">@Localizer["Yes"]</label>
+
+                               
+                                <InputRadio TValue="CloseAnswerOptions" Value="CloseAnswerOptions.No" id="group5-no" class="btn-check" type="radio" autocomplete="off" />
+                            <label class="form-label btn btn-outline-primary" for="group5-no">@Localizer["No"]</label>
+
+                            </InputRadioGroup>
+                        </div>
+                </div>
+
+
+        <div class="input-group mb-1">
+
+            <span class="input-group-text">@Localizer["YourNotes"]</span>
+
+            <InputTextArea @bind-Value="infringementShared.InfrigementNote" class="form-control" />
+
+        </div>
+        }
+
+    </Body>
+
+
+    <Footer>
+
+
+        @if(modalViewMode == ModalViewMode.Add)
+        {
+        <button class="btn btn-primary" type="submit">@Localizer["AddViolation"]</button>
+        }
+
+        @if(modalViewMode == ModalViewMode.Edit)
+        {
+
+         <button class="btn btn-primary" type="submit">@Localizer["Save"]</button>
+
+        }
+
+
+    </Footer>
+</ModalForm>
+
+
+
+
+
+@* end of modal trainee (add,edit,view) violation *@
+
+
+
+@* Profile image  *@
+<div class="container mt-3">
+    <div class="row">
+        <div class="col d-none d-md-block"></div>
+        <div class="col-sm-12 col-md-8">
+            <div class="card bg-white w-100">
+                <img class="card-img w-100 d-block" src="@traineeImage" style="height: 300px;" />
+
+                <div class="card-img-overlay">
+                    <div class="row"> 
+                        <div class="col-4"> 
+                            <h4 class="text-background-white">@traineeDataService.TraineeSharedData.Name</h4>
+                         </div>
+                     </div>
+                     <div class="row">
+                         <div class="col-4">
+                          <p class="text-background-white">@traineeDataService.TraineeSharedData.AcademyId</p>
+
+                         </div>
+                     </div>
+                     <div class="row">
+                         <div class="col-4">
+                          <p class="text-background-white">@traineeDataService.TraineeSharedData.Major</p>
+                         </div>
+                     </div>
+                </div>
+
+            </div>
+        </div>
+        <div class="col d-none d-md-block"></div>
+    </div>
+</div>
+
+@* end of profile image  *@
+
+
+@* trainee violations stats *@
+
+<div class="container py-4 py-xl-5">
+    <div class="row gy-4 row-cols-2 row-cols-md-4">
+        <div class="col-sm-6 col-md-4">
+            <div class="text-center d-flex flex-column justify-content-center align-items-center py-3">
+                <div class="bs-icon-xl bs-icon-circle bs-icon-primary d-flex flex-shrink-0 justify-content-center align-items-center d-inline-block mb-2 bs-icon lg">
+                    <svg class="bi bi-list-check" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M3.854 2.146a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708L2 3.293l1.146-1.147a.5.5 0 0 1 .708 0m0 4a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708L2 7.293l1.146-1.147a.5.5 0 0 1 .708 0m0 4a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0"></path>
+                    </svg>
+                </div>
+                <div class="px-3">
+                    <h2 class="fw-bold mb-0">@infrigementDTOs.Where(i => i.infringementProcess == InfringementProcess.Processed).ToList().Count</h2>
+                     <p class="mb-0">@Localizer["ViolationProcced"]</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-4">
+            <div class="text-center d-flex flex-column justify-content-center align-items-center py-3">
+                <div class="bs-icon-xl bs-icon-circle bs-icon-primary d-flex flex-shrink-0 justify-content-center align-items-center d-inline-block mb-2 bs-icon lg">
+                    <svg class="bi bi-hourglass-split" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16">
+                        <path d="M2.5 15a.5.5 0 1 1 0-1h1v-1a4.5 4.5 0 0 1 2.557-4.06c.29-.139.443-.377.443-.59v-.7c0-.213-.154-.451-.443-.59A4.5 4.5 0 0 1 3.5 3V2h-1a.5.5 0 0 1 0-1h11a.5.5 0 0 1 0 1h-1v1a4.5 4.5 0 0 1-2.557 4.06c-.29.139-.443.377-.443.59v.7c0 .213.154.451.443.59A4.5 4.5 0 0 1 12.5 13v1h1a.5.5 0 0 1 0 1zm2-13v1c0 .537.12 1.045.337 1.5h6.326c.216-.455.337-.963.337-1.5V2zm3 6.35c0 .701-.478 1.236-1.011 1.492A3.5 3.5 0 0 0 4.5 13s.866-1.299 3-1.48zm1 0v3.17c2.134.181 3 1.48 3 1.48a3.5 3.5 0 0 0-1.989-3.158C8.978 9.586 8.5 9.052 8.5 8.351z"></path>
+                    </svg>
+                </div>
+                <div class="px-3">
+                    <h2 class="fw-bold mb-0">@infrigementDTOs.Where(i => i.infringementProcess == InfringementProcess.Pending).ToList().Count</h2>
+                            <p class="mb-0">@Localizer["ViolationsUnderProcess"]</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 col-md-4">
+
+            <div class="text-center d-flex flex-column justify-content-center align-items-center py-3">
+
+                <div class="bs-icon-xl bs-icon-circle bs-icon-primary d-flex flex-shrink-0 justify-content-center align-items-center d-inline-block mb-2 bs-icon lg">
+                    <svg class="bi bi-shield-fill-exclamation" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M8 0c-.69 0-1.843.265-2.928.56-1.11.3-2.229.655-2.887.87a1.54 1.54 0 0 0-1.044 1.262c-.596 4.477.787 7.795 2.465 9.99a11.777 11.777 0 0 0 2.517 2.453c.386.273.744.482 1.048.625.28.132.581.24.829.24s.548-.108.829-.24a7.159 7.159 0 0 0 1.048-.625 11.775 11.775 0 0 0 2.517-2.453c1.678-2.195 3.061-5.513 2.465-9.99a1.541 1.541 0 0 0-1.044-1.263 62.467 62.467 0 0 0-2.887-.87C9.843.266 8.69 0 8 0m-.55 8.502L7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0zM8.002 12a1 1 0 1 1 0-2 1 1 0 0 1 0 2"></path>
+                    </svg>
+                </div>
+
+                <div class="px-3">
+                    <h2 class="fw-bold mb-0"> @infrigementDTOs.ToList().Count </h2>
+                    <p class="mb-0">@Localizer["AllViolations"]</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@* end of trainee violations stats *@
+
+
+
+@* Operations trainee violations *@
+
+        <div class="container py-4">
+            <div class="row g-3 align-items-center">
+                <!-- زر الإضافة -->
+                <div class="col-md-2 text-center">
+                    <button @onclick="() => ShowModal(null,ModalViewMode.Add)" class="btn  btn-primary mb-3 w-100 shadow-sm d-flex align-items-center justify-content-center" type="button">
+                        <span class="bi bi-patch-plus-fill me-2"></span>
+                        @Localizer["Add"]
+                    </button>
+
+                    <button @onclick="() => OnOpenVaiolationProcedures()" class="btn btn-danger mb-3 w-100 shadow-sm d-flex align-items-center justify-content-center" type="button">
+                        <span class="bi bi-patch-plus-fill me-2"></span>
+                        @Localizer["ViolationsProcedures"]
+                    </button>
+                </div>
+
+               
+                <div class="col-md-8">
+                    <div class="card shadow-sm border-0">
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <div class="input-group">
+                                    <span class="input-group-text bg-light border-0">
+                                        <svg class="bi bi-search" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16">
+                                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007.1a.007.5 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"></path>
+                                        </svg>
+                                    </span>
+                                    <InputText @bind-Value="searchText" type="text" class="form-control border-0" placeholder="@Localizer["Search"]" />
+                                    <button @onclick="OnSearch" class="btn btn-primary shadow-sm">@Localizer["Search"]</button>
+                                </div>
+                            </div>
+
+                           
+                            <InputRadioGroup @bind-Value="searchType" TValue="InfringementProcess" Name="SearchType" class="w-100">
+                                <div class="d-flex flex-wrap gap-3">
+                                    <div class="btn-group w-100">
+                                        <InputRadio TValue="InfringementProcess" Value="InfringementProcess.All" id="btnradio1" class="btn-check" autocomplete="off" />
+                                        <label class="btn btn-outline-dark w-100" for="btnradio1">
+                                            @Localizer["AllViolations"]
+                                        </label>
+                                    </div>
+                                    <div class="btn-group w-100">
+                                        <InputRadio TValue="InfringementProcess" Value="InfringementProcess.Pending" id="btnradio2" class="btn-check" autocomplete="off" />
+                                        <label class="btn btn-outline-dark w-100" for="btnradio2">
+                                            @Localizer["Pending"]
+                                        </label>
+                                    </div>
+                                    <div class="btn-group w-100">
+                                        <InputRadio TValue="InfringementProcess" Value="InfringementProcess.Processed" id="btnradio3" class="btn-check" autocomplete="off" />
+                                        <label class="btn btn-outline-dark w-100" for="btnradio3">
+                                            @Localizer["ViolationProcced"]
+                                        </label>
+                                    </div>
+                                </div>
+                            </InputRadioGroup>
+                        </div>
+                    </div>
+                </div>
+
+               
+                <div class="col-md-2"></div>
+            </div>
+        </div>
+
+        </div>
+
+
+    </Authorized>
+
+</AuthorizeView>
+
+@* end of Operations trainee violations *@
+
+
+
+@* quickGrid vaiolations *@
+
+
+<div class="table-responsive w-100">
+
+    <QuickGrid Class="table text-nowrap" Items="infrigementDTOs" TGridItem="InfrigementDTO">
+
+        <TemplateColumn>
+
+            <button class="btn btn-warning" @onclick="() => ShowModal(context,ModalViewMode.View)">
+                <span class="bi bi-eye-fill"</span>
+            </button>
+
+            <button class="btn btn-primary" @onclick="() => ShowModal(context,ModalViewMode.Edit)">
+                <span class="bi-pencil-fill"></span>
+            </button>
+
+
+        </TemplateColumn>
+
+        <PropertyColumn Title="@Localizer["Id"]" Property="i => i.id" />
+    <PropertyColumn Title="@Localizer["ViolationRate"]" Sortable="true" Property="i => i.rate" />
+     <PropertyColumn Title="@Localizer["IsTraineeReported"]" Property="i => i.isTraineeReported" />
+    <PropertyColumn Title="@Localizer["InfringementProcess"]" Property="i => i.infringementProcess.ToString()" />
+    <PropertyColumn Title="@Localizer["InfringementCount"]" Property="i => i.infringementCount" />
+        <PropertyColumn Title="@Localizer["ViolationDate"]" Property="i => i.date" />
+
+</QuickGrid>
+
+</div>
+
+
+
+@code {
+    #region Fields
+
+    //check initialization requirements fields
+    private DisplayType somethingWentWrongDisplayType = DisplayType.none;
+
+
+    //main container
+    private DisplayType mainContainerDisplayType = DisplayType.block;
+
+
+    //infringement procedure 
+    private List<ViolationProcedureSharedModel> violationProcedureSharedModels = new List<ViolationProcedureSharedModel>();
+
+    //search
+    private InfringementProcess searchType;
+    private string searchText;
+
+    //trainee image
+    private string traineeImage;
+
+    //sftoast
+
+    private SfToast toast;
+
+    //modal
+
+    private ModalForm modal;
+    private ModalViewMode modalViewMode;
+
+    private Modal modalViolationProcedures;
+
+    // Infringement
+
+    private InfringementShared infringementShared = new InfringementShared();
+    private InfringementShared selectedInfringementShared = new InfringementShared();
+
+    private CloseAnswerOptions closeInfrigement = CloseAnswerOptions.No;
+
+    private int infringementRate;
+
+    private List<InfrigementRateSharedModel> infringementRateSharedModels = new List<InfrigementRateSharedModel>();
+    private List<RegulationsSharedModel> regulationsSharedModels = new List<RegulationsSharedModel>();
+    private int selectedRegulationId;
+
+    private IQueryable<InfrigementDTO> infrigementDTOs = new List<InfrigementDTO>().AsQueryable();
+
+    // End of Infringement
+
+    //
+    private bool isBusy = false;
+
+
+    //Trainee Questions
+
+
+
+    //End of Trainee Questions
+
+    //Forwarding Questions
+
+
+    private int FowardOption;
+    private bool isViolationForwarded;
+
+    //End of Forwarding Questions
+
+
+    // 
+
+
+
+
+
+
+    #endregion
+
+
+    #region Parameters
+
+    [Parameter]
+    public int? ViolationId { get; set; }
+
+    #endregion
+
+
+    #region Properties
+
+
+    #endregion
+
+
+
+    #region Methods
+
+
+    //check initialization requrements
+    private bool CheckInitializationRequirements()
+    {
+        if (traineeDataService is null)
+        {
+
+            somethingWentWrongDisplayType = DisplayType.block;
+            mainContainerDisplayType = DisplayType.none;
+
+            return false;
+        }
+        else
+        {
+            somethingWentWrongDisplayType = DisplayType.none;
+            mainContainerDisplayType = DisplayType.block;
+            return true;
+        }
+    }
+
+
+    //get violation By violation id
+    private async Task<InfrigementDTO> GetViolationById(int violationId)
+    {
+        try
+        {
+            var violation = await ViolationClientService.GetInfringementByIdAsync(violationId);
+            if (violation == null)
+            {
+                await toastService.ShowWarning(toast, Localizer["NoViolationsFound"], Localizer["NoViolationsFound"]);
+                return null;
+            }
+
+            return violation;
+        }
+        catch (Exception ex)
+        {
+            // Log the exception if needed
+            await toastService.ShowError(toast, Localizer["Error"], Localizer["ErrorInGettingViolations"]);
+            return null;
+        }
+    }
+
+
+    //get violation Procedures by regulation id
+    private async Task<IEnumerable<ViolationProcedureSharedModel>> GetViolationsByRegulationId(int regulationId)
+    {
+        try
+        {
+            var violationProcedure = await ViolationClientService.GetViolationProceduresAsync(regulationId);
+            if (violationProcedureSharedModels == null || !violationProcedure.Any())
+            {
+                return null;
+            }
+
+
+            return violationProcedure.ToList();
+
+
+
+        }
+        catch (Exception ex)
+        {
+            // Log the exception if needed
+            await toastService.ShowError(toast, Localizer["Error"], Localizer["ErrorInGettingViolations"]);
+
+            return null;
+        }
+    }
+
+    async Task UpdateViolation(InfringementShared infringementShared)
+    {
+        var response = await ViolationClientService.UpdateViolationAsync(infringementShared);
+        if (response is null || !response.IsSuccessStatusCode)
+        {
+            await toastService.ShowError(toast, Localizer["Error"], Localizer["ErrorInUpdatingViolation"]);
+            return;
+        }
+        await toastService.ShowSuccess(toast, Localizer["ViolationUpdatedSuccessfully"], Localizer["Success"]);
+    }
+
+    async Task<List<InfrigementRateSharedModel>> GetViolationsByRoleAsync()
+    {
+        var infringementRate = await ViolationClientService.GetViolationRateByRoleAsync();
+
+        if (infringementRate == null || infringementRate.Count() <= 0)
+        {
+            await toastService.ShowError(toast, "Error", "Error in getting violation rate");
+            return null;
+        }
+
+        infringementRateSharedModels = infringementRate.ToList();
+
+        return infringementRateSharedModels;
+    }
+
+    void SaveTraineeInfoToInfringement()
+    {
+        infringementShared.Trainee = traineeDataService.TraineeSharedData;
+    }
+
+    void DisplayTraineeImage(string base64Image)
+    {
+        traineeImage = $"data:{configuration["profileImageType"]};base64,{base64Image}";
+    }
+
+
+    private async Task GetViolations(Func<Task<IEnumerable<InfrigementDTO>>> func)
+    {
+        try
+        {
+            var localInfrigementDTOs = await func();
+
+            if (localInfrigementDTOs == null || !localInfrigementDTOs.Any())
+            {
+                await toastService.ShowWarning(toast, Localizer["NoViolationsFound"], Localizer["NoViolationsFound"]);
+                return;
+            }
+
+            infrigementDTOs = localInfrigementDTOs.AsQueryable();
+        }
+        catch (Exception ex)
+        {
+            // Log the exception if needed
+            await toastService.ShowError(toast, Localizer["Error"], Localizer["ErrorInGettingViolations"]);
+        }
+    }
+
+    private async Task SaveIntoSelectedInfrigement(InfrigementDTO infrigementDTO)
+    {
+        selectedInfringementShared = new InfringementShared()
+        {
+            Id = infrigementDTO.id,
+            Rate = infrigementDTO.rate,
+            IsTraineeReported = infrigementDTO.isTraineeReported,
+            InfringementProcess = infrigementDTO.infringementProcess,
+            InfringementCount = infrigementDTO.infringementCount,
+            InfrigementNote = infrigementDTO.Note
+        };
+    }
+
+    private async Task SaveIntoInfrigement(InfrigementDTO infrigementDTO)
+    {
+        if(infrigementDTO == null)
+        {
+            return;
+        }
+
+        infringementShared = new InfringementShared()
+        {
+            Id = infrigementDTO.id,
+            Rate = infrigementDTO.rate,
+            IsTraineeReported = infrigementDTO.isTraineeReported,
+            InfringementProcess = infrigementDTO.infringementProcess,
+            InfringementCount = infrigementDTO.infringementCount,
+            InfrigementNote = infrigementDTO.Note,
+            Trainee = traineeDataService.TraineeSharedData ?? new TraineeShared()
+        };
+    }
+
+
+    private async Task ForwardInfrigement(InfringementShared infringementShared,int forwardOption,int traineeId)
+    {
+        ForwardInfrigementModel forwardInfrigementModel = new ForwardInfrigementModel()
+            {
+                InfrigementId = infringementShared.Id,
+                InfrigementFowardOptions = (InfrigementForwardOptions)forwardOption,
+                TraineeId = traineeId
+            };
+
+        var response = await ViolationClientService.ForwardViolationAsync(forwardInfrigementModel);
+
+        if (response.IsSuccessStatusCode)
+        {
+            await toastService.ShowSuccess(toast, Localizer["ViolationForwardedSuccessfully"], Localizer["Success"]);
+        }
+
+        else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+        {
+
+            await toastService.ShowError(toast,
+            $"{Localizer["ErrorInForwardingViolation"]} \t {Localizer["MaybeAlreadyForwarded"]}", Localizer["Error"]);
+
+        }
+    }
+
+
+
+
+    #endregion
+
+
+    #region Events  
+
+
+    private async Task OnOpenVaiolationProcedures()
+    {
+
+
+        violationProcedureSharedModels.Clear();
+
+        foreach(var item in infrigementDTOs.ToList())
+        {
+            var violationProcedureShareds = await GetViolationsByRegulationId(item.regulationId);
+
+
+            if (violationProcedureShareds != null)
+
+                if(violationProcedureSharedModels.Where(v => v.RegulationId == item.regulationId).Count() <= 0)
+                    violationProcedureSharedModels.AddRange(violationProcedureShareds);
+        }
+
+        modalViolationProcedures.Show();
+    }
+
+
+    private async Task OnValidSubmit()
+    {
+        if (modalViewMode == ModalViewMode.Add)
+        {
+
+            var newInfrigement = await ViolationClientService.CreateViolationAsync(infringementShared);
+
+            if (newInfrigement == null || newInfrigement.Id <= 0)
+            {
+                await toastService.ShowError(toast, Localizer["Error"], Localizer["ErrorInCreatingViolation"]);
+                return;
+            }
+
+            else
+            {
+
+                await toastService.ShowSuccess(toast, Localizer["ViolationCreatedSuccessfully"], Localizer["Success"]);
+
+                if (closeInfrigement == CloseAnswerOptions.Yes || closeInfrigement == CloseAnswerOptions.No)
+                {
+                    CloseInfrigementModel closeInfrigementModel = new CloseInfrigementModel()
+                        {
+                            InfrigementId = newInfrigement.Id,
+                            InfringementProcess = InfringementProcess.Processed
+                        };
+
+                    var response = await ViolationClientService.CloseViolationAsync(closeInfrigementModel);
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        await toastService.ShowSuccess(toast, Localizer["ViolationClosedSuccessfully"], Localizer["Success"]);
+                    }
+                }
+
+                if (isViolationForwarded)
+                {
+
+                    await ForwardInfrigement(newInfrigement, FowardOption,traineeDataService.TraineeSharedData.Id);
+
+
+                }
+
+                infrigementDTOs = infrigementDTOs.Append(new InfrigementDTO()
+                    {
+                        id = newInfrigement.Id,
+                        rate = newInfrigement.Rate,
+                        isTraineeReported = newInfrigement.IsTraineeReported,
+                        infringementProcess = newInfrigement.InfringementProcess,
+                        infringementCount = newInfrigement.InfringementCount,
+                        date = newInfrigement.Date,
+
+                    }).AsQueryable();
+            }
+
+        }
+        else if(modalViewMode == ModalViewMode.Edit)
+        {
+            await UpdateViolation(infringementShared);
+
+            if (isViolationForwarded)
+            {
+                await ForwardInfrigement(infringementShared, FowardOption,traineeDataService.TraineeSharedData.Id);
+            }
+        }
+    }
+
+
+    private async Task OnSearch()
+    {
+        Task.Run(async () =>
+        {
+            isBusy = true;
+            await InvokeAsync(StateHasChanged);
+            if(!string.IsNullOrEmpty(searchText) && int.TryParse(searchText,out int number))
+            {
+                await GetViolations(() => ViolationClientService.GetInfringementsAsync(1, 10, searchType, number, null, traineeDataService.TraineeSharedData.NationalId));
+            }
+            else
+                await GetViolations(() => ViolationClientService.GetInfringementsAsync(1, 10, searchType,null,null,traineeDataService.TraineeSharedData.NationalId));
+
+            isBusy = false;
+            await InvokeAsync(StateHasChanged);
+
+        });
+    }
+
+
+    private async Task<IEnumerable<RegulationsSharedModel>> SearchRegulations(string searchText)
+    {
+        return await Task.FromResult(regulationsSharedModels.Where(r => r.Title.Contains(searchText.ToLower())).ToList());
+    }
+
+
+    private async Task OnSelectionChangeinfringementRate(int value)
+    {
+        isBusy = true;
+
+        infringementShared.Rate = value;
+        var regulations = await ViolationClientService.GetRegulationByInfringementId(value);
+
+        regulationsSharedModels = regulations.ToList();
+
+        isBusy = false;
+    }
+
+
+
+
+
+
+
+    private async Task ShowModal(InfrigementDTO infrigementDTO,ModalViewMode modalViewMode)
+    {
+        if (modalViewMode == ModalViewMode.Add)
+        {
+            this.modalViewMode = modalViewMode;
+            infringementShared = new InfringementShared()
+                {
+                    Trainee = traineeDataService.TraineeSharedData,
+                };
+
+            isBusy = true;
+
+            infringementRateSharedModels = await GetViolationsByRoleAsync();
+
+            if (infringementRateSharedModels is not null && infringementRateSharedModels.Count > 0)
+            {
+
+                await OnSelectionChangeinfringementRate(infringementRateSharedModels.FirstOrDefault().Id);
+
+                modal.Show();
+            }
+
+            isBusy = false;
+        }
+
+        if(modalViewMode == ModalViewMode.View)
+        {
+            this.modalViewMode = modalViewMode;
+
+            await SaveIntoSelectedInfrigement(infrigementDTO);
+
+
+            modal.Show();
+        }
+
+        if(modalViewMode == ModalViewMode.Edit)
+        {
+            this.modalViewMode = modalViewMode;
+
+            await SaveIntoInfrigement(infrigementDTO);
+
+            infringementRateSharedModels = await GetViolationsByRoleAsync();
+
+            await OnSelectionChangeinfringementRate(infringementRateSharedModels.FirstOrDefault().Id);
+
+
+
+            modal.Show();
+        }
+    }
+
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+
+    }
+
+    protected async override Task OnInitializedAsync()
+    {
+
+        bool result = CheckInitializationRequirements();
+        if (!result)
+            return;
+
+        
+            SaveTraineeInfoToInfringement();
+
+            DisplayTraineeImage(traineeDataService.TraineeSharedData.ProfileImage);
+        
+
+
+        Task.Run(async () =>
+       {
+           try
+           {
+               isBusy = true;
+               await InvokeAsync(StateHasChanged);
+
+               if (ViolationId > 0)
+               {
+                   var result = await GetViolationById(ViolationId.Value);
+
+
+                   await SaveIntoInfrigement(result);
+
+                   infrigementDTOs = new List<InfrigementDTO>() { result }.AsQueryable();
+               }
+               else
+               {
+                   await GetViolations(() => ViolationClientService.GetInfringementsAsync(1, 10, InfringementProcess.All, null, null, traineeDataService.TraineeSharedData.NationalId));
+
+               }
+               isBusy = false;
+               await InvokeAsync(StateHasChanged);
+
+           }
+
+           catch(Exception Err)
+           {
+               
+           }
+       });
+
+
+    }
+
+    
+
+
+
+    #endregion
+
+
+
+
+}
+
+}

@@ -1,0 +1,202 @@
+﻿@page "/User/user-profile"
+@inject IStringLocalizer<Lang> localizer;
+@inject AuthenticationStateProvider authStateProvider;
+@inject UserClientService userClientService;
+@inject ToastService toastService;
+@using System.Security.Claims
+@using System.Text.Json;
+
+
+<SfSpinner Visible="isBusy" />
+
+<SfToast @ref="sfToast" />
+
+@if(userInformations is not null)
+{
+
+    <EditForm Model="userInformations" OnValidSubmit="SaveUserInfo" >
+
+<div class="container" style="margin-top: 27px;">
+    <div class="row mb-2">
+        <div class="col">
+                <h1 class="text-uppercase text-center text-bg-dark p-5"> @localizer["Profile"] </h1>
+        </div>
+    </div>
+    <div class="row mb-2 mb-2">
+        <div class="col">
+            <div class="input-group">
+                <span class="input-group-text">User Name</span>
+                <InputText @bind-Value="userInformations.UserName" class="form-control" type="text" />
+            </div>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col">
+            <div class="input-group">
+                <span class="input-group-text">Email</span>
+                <InputText @bind-Value="userInformations.Email" class="form-control" type="text" />
+            </div>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col">
+            <div class="input-group">
+                <span class="input-group-text">First Name</span>
+                <InputText @bind-Value="userInformations.FirstName" class="form-control" type="text" />
+            </div>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col">
+            <div class="input-group">
+                <span class="input-group-text">Middle name</span>
+                <InputText @bind-Value="userInformations.MiddleName" class="form-control" type="text" />
+            </div>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col">
+            <div class="input-group">
+                <span class="input-group-text">Last name</span>
+                <InputText @bind-Value="userInformations.LastName" class="form-control" type="text" />
+                </div>
+        </div>
+    </div>
+    <div class="row mb-2">
+        <div class="col">
+            <div class="input-group"><span class="input-group-text">Phone number</span>
+                <InputText @bind-Value="userInformations.PhoneNumber" class="form-control" type="text" />
+                </div>
+        </div>
+    </div>
+
+    <div class="row mb-2">
+        <div class="col">
+            <div class="input-group">
+                <span class="input-group-text">Phone code</span>
+                <InputText @bind-Value="userInformations.PhoneCode" class="form-control" type="text" />
+            </div>
+        </div>
+    </div>
+
+        <div class="row mb-2">
+            <div class="col">
+                <button type="submit" class="btn btn-success">
+                    <span class="bi bi-save-fill"></span>
+
+                    @localizer["Save"]
+                </button>
+            </div>
+        </div>
+
+
+
+</div>
+
+    </EditForm>
+
+}
+
+else{
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-bg-danger d-block"> 
+
+                    Cannot find your info
+                </h1>
+
+                <h4 class="d-block">
+                    sorry but we cannot find your info 😔
+                    please talk to the app owner
+                </h4>
+            </div>
+        </div>
+    </div>
+}
+
+
+@code {
+    //user info
+    UserInformations userInformations = new();
+
+    //auth
+    AuthenticationState authenticationState;
+
+
+    //work
+    bool isBusy;
+
+    //sf toast
+    SfToast sfToast;
+
+
+    #region Events
+
+    protected async override Task OnInitializedAsync()
+    {
+        ApiAuthenticationStateProvider apiAuth = (ApiAuthenticationStateProvider)authStateProvider;
+
+        userInformations = await GetUserInformationsAsync(await apiAuth.GetAuthenticationStateAsync());
+
+    }
+
+    #endregion
+
+
+    async Task SaveUserInfo()
+    {
+        userInformations.Id = "";
+        userInformations.Major = new()
+            {
+                id = 0,
+                name = string.Empty
+            };
+        userInformations.Section = new()
+        {
+            id = 0,
+             name = string.Empty
+        };
+
+        var response = await  userClientService.UpdateCurrentUserInformationsAsync(userInformations);
+
+        if (response.IsSuccessStatusCode)
+        {
+            await toastService.ShowSuccess(sfToast, localizer["UserInfoUpdated"], localizer["Success"]);
+        }
+
+        else{
+            await toastService.ShowError(sfToast, await response.Content.ReadAsStringAsync(), localizer["Error"]);
+
+        }
+    }
+
+
+    async Task<UserInformations> GetUserInformationsAsync(AuthenticationState authenticationState)
+    {
+
+        var userData = authenticationState.User.FindFirst(ClaimTypes.UserData);
+
+        if (userData != null)
+        {
+            var dataValue = userData.Value;
+
+            var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true 
+                };
+
+            // تحويل JSON إلى كائن
+            userInformations = JsonSerializer.Deserialize<UserInformations>(dataValue, options);
+
+            return userInformations;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+
+    
+}
