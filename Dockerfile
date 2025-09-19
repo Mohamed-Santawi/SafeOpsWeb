@@ -4,7 +4,6 @@ WORKDIR /app
 # Copy all project files
 COPY ["Auth/AuthServer/AuthServer.csproj", "Auth/AuthServer/"]
 COPY ["Auth/AuthShared/AuthShared.csproj", "Auth/AuthShared/"]
-COPY ["SafeOpsBlazor/SafeOpsWeb/SafeOpsWeb.csproj", "SafeOpsBlazor/SafeOpsWeb/"]
 
 # Create a clean NuGet.config
 RUN echo '<?xml version="1.0" encoding="utf-8"?>' > NuGet.config && \
@@ -17,7 +16,7 @@ RUN echo '<?xml version="1.0" encoding="utf-8"?>' > NuGet.config && \
 # Restore AuthServer dependencies
 RUN dotnet restore "Auth/AuthServer/AuthServer.csproj" --configfile NuGet.config --force --no-cache
 
-# Copy AuthServer source code
+# Copy AuthServer source code (all directories)
 COPY Auth/AuthServer/Controllers Auth/AuthServer/Controllers
 COPY Auth/AuthServer/Data Auth/AuthServer/Data
 COPY Auth/AuthServer/Entity Auth/AuthServer/Entity
@@ -28,8 +27,12 @@ COPY Auth/AuthServer/Pages Auth/AuthServer/Pages
 COPY Auth/AuthServer/Procedures Auth/AuthServer/Procedures
 COPY Auth/AuthServer/Services Auth/AuthServer/Services
 COPY Auth/AuthServer/wwwroot Auth/AuthServer/wwwroot
+COPY Auth/AuthServer/CustomException Auth/AuthServer/CustomException
+COPY Auth/AuthServer/InfterFace Auth/AuthServer/InfterFace
+COPY Auth/AuthServer/Analysis Auth/AuthServer/Analysis
 COPY Auth/AuthServer/Program.cs Auth/AuthServer/
 COPY Auth/AuthServer/appsettings*.json Auth/AuthServer/
+COPY Auth/AuthServer/WeatherForecast.cs Auth/AuthServer/
 
 # Copy AuthShared source code
 COPY Auth/AuthShared/DTOs Auth/AuthShared/DTOs
