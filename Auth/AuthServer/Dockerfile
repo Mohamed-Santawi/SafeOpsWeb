@@ -5,7 +5,7 @@ WORKDIR /app
 COPY ["Auth/AuthServer/AuthServer.csproj", "."]
 COPY ["Auth/AuthShared/AuthShared.csproj", "Auth/AuthShared/"]
 
-# Create a clean NuGet.config to avoid DevExpress issues
+# Create a clean NuGet.config
 RUN echo '<?xml version="1.0" encoding="utf-8"?>' > NuGet.config && \
     echo '<configuration>' >> NuGet.config && \
     echo '  <packageSources>' >> NuGet.config && \
@@ -13,19 +13,28 @@ RUN echo '<?xml version="1.0" encoding="utf-8"?>' > NuGet.config && \
     echo '  </packageSources>' >> NuGet.config && \
     echo '</configuration>' >> NuGet.config
 
-# Restore dependencies with clean configuration
+# Restore dependencies
 RUN dotnet restore "AuthServer.csproj" --configfile NuGet.config --force --no-cache
 
-# Copy the rest of the source code
-COPY Auth/AuthServer .
+# Copy source code excluding obj directories
+COPY Auth/AuthServer/Controllers ./Controllers
+COPY Auth/AuthServer/Data ./Data
+COPY Auth/AuthServer/Entity ./Entity
+COPY Auth/AuthServer/Helper ./Helper
+COPY Auth/AuthServer/Manager ./Manager
+COPY Auth/AuthServer/Models ./Models
+COPY Auth/AuthServer/Pages ./Pages
+COPY Auth/AuthServer/Procedures ./Procedures
+COPY Auth/AuthServer/Services ./Services
+COPY Auth/AuthServer/wwwroot ./wwwroot
+COPY Auth/AuthServer/Program.cs .
+COPY Auth/AuthServer/appsettings*.json .
 
-# Build the project
+# Build and publish
 RUN dotnet build "AuthServer.csproj" -c Release --no-restore
-
-# Publish the project
 RUN dotnet publish "AuthServer.csproj" -c Release -o /app/publish --no-restore
 
-# Stage 2: Runtime
+# Runtime stage
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
 COPY --from=build /app/publish .
