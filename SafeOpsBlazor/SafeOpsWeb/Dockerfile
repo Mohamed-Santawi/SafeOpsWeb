@@ -2,14 +2,14 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
 # Copy SafeOpsWeb.csproj and AuthShared.csproj
-COPY ["SafeOpsWeb.csproj", "."]
-COPY ["../../Auth/AuthShared/AuthShared.csproj", "../../Auth/AuthShared/"]
+COPY ["SafeOpsBlazor/SafeOpsWeb/SafeOpsWeb.csproj", "."]
+COPY ["Auth/AuthShared/AuthShared.csproj", "Auth/AuthShared/"]
 
 # Restore dependencies
 RUN dotnet restore "SafeOpsWeb.csproj"
 
 # Copy the rest of the source code
-COPY . .
+COPY SafeOpsBlazor/SafeOpsWeb .
 
 # Publish the Blazor WebAssembly app
 RUN dotnet publish "SafeOpsWeb.csproj" -c Release -o /app/publish --no-restore
