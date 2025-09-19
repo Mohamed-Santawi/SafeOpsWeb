@@ -2,14 +2,14 @@ FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
 # Copy AuthServer.csproj and AuthShared.csproj
-COPY ["AuthServer.csproj", "."]
-COPY ["../AuthShared/AuthShared.csproj", "../AuthShared/"]
+COPY ["Auth/AuthServer/AuthServer.csproj", "."]
+COPY ["Auth/AuthShared/AuthShared.csproj", "Auth/AuthShared/"]
 
 # Restore dependencies
 RUN dotnet restore "AuthServer.csproj"
 
 # Copy the rest of the source code
-COPY . .
+COPY Auth/AuthServer .
 
 # Build the project
 RUN dotnet build "AuthServer.csproj" -c Release --no-restore
