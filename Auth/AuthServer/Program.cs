@@ -131,6 +131,9 @@ app.UseAuthorization();
 
 
 app.MapControllers();
+
+// Add health check endpoint
+app.MapGet("/health", () => "OK");
 app.MapRazorPages();
 
 app.Run();
