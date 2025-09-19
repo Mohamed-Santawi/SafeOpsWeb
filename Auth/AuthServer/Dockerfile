@@ -5,8 +5,9 @@ WORKDIR /app
 COPY ["Auth/AuthServer/AuthServer.csproj", "."]
 COPY ["Auth/AuthShared/AuthShared.csproj", "Auth/AuthShared/"]
 
-# Restore dependencies
-RUN dotnet restore "AuthServer.csproj"
+# Clear NuGet cache and restore dependencies
+RUN dotnet nuget locals all --clear
+RUN dotnet restore "AuthServer.csproj" --force
 
 # Copy the rest of the source code
 COPY Auth/AuthServer .
