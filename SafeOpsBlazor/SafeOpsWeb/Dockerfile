@@ -22,7 +22,7 @@ WORKDIR /usr/share/nginx/html
 COPY --from=build /app/publish/wwwroot .
 
 # Add a basic Nginx configuration for Blazor client-side routing
-COPY default.conf /etc/nginx/conf.d/default.conf
+COPY SafeOpsBlazor/SafeOpsWeb/default.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
