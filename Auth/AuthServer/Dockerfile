@@ -5,9 +5,16 @@ WORKDIR /app
 COPY ["Auth/AuthServer/AuthServer.csproj", "."]
 COPY ["Auth/AuthShared/AuthShared.csproj", "Auth/AuthShared/"]
 
-# Clear NuGet cache and restore dependencies
-RUN dotnet nuget locals all --clear
-RUN dotnet restore "AuthServer.csproj" --force
+# Create a clean NuGet.config to avoid DevExpress issues
+RUN echo '<?xml version="1.0" encoding="utf-8"?>' > NuGet.config && \
+    echo '<configuration>' >> NuGet.config && \
+    echo '  <packageSources>' >> NuGet.config && \
+    echo '    <add key="nuget.org" value="https://api.nuget.org/v3/index.json" protocolVersion="3" />' >> NuGet.config && \
+    echo '  </packageSources>' >> NuGet.config && \
+    echo '</configuration>' >> NuGet.config
+
+# Restore dependencies with clean configuration
+RUN dotnet restore "AuthServer.csproj" --configfile NuGet.config --force --no-cache
 
 # Copy the rest of the source code
 COPY Auth/AuthServer .
