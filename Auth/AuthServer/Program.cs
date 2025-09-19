@@ -137,4 +137,16 @@ app.MapControllers();
 app.MapGet("/health", () => "OK");
 app.MapRazorPages();
 
+// Add root endpoint
+app.MapGet("/", () => new { message = "SafeOps API is running", status = "OK", timestamp = DateTime.UtcNow });
+
+// Add API info endpoint
+app.MapGet("/api/info", () => new { 
+    message = "SafeOps API", 
+    version = "1.0", 
+    status = "Running",
+    timestamp = DateTime.UtcNow,
+    endpoints = new[] { "/health", "/api/info", "/swagger" }
+});
+
 app.Run();
