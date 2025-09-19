@@ -13,7 +13,7 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 // Configure HttpClient with your API base URL
 builder.Services.AddScoped(sp => new HttpClient {
-    BaseAddress = new Uri("https://your-api-domain.com/") // Update this URL
+    BaseAddress = new Uri("https://authserver-production-4ea8.up.railway.app/") // Update this URL
 });
 
 // Add services
