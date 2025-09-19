@@ -12,6 +12,7 @@ using AuthServer.Procedures;
 using AuthServer.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 
@@ -45,13 +46,13 @@ builder.Services.AddSwaggerGen(options =>
 
 builder.Services.AddDbContext<AuthServer.Data.AppUserDataContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 
 });
 
 builder.Services.AddDbContext<AuthServer.Data.ApplicationDbContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
 
 });
 
