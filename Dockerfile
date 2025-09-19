@@ -4,6 +4,7 @@ WORKDIR /app
 # Copy all project files
 COPY ["Auth/AuthServer/AuthServer.csproj", "Auth/AuthServer/"]
 COPY ["Auth/AuthShared/AuthShared.csproj", "Auth/AuthShared/"]
+COPY ["SafeOpsBlazor/SafeOpsWeb/SafeOpsWeb.csproj", "SafeOpsBlazor/SafeOpsWeb/"]
 
 # Create a clean NuGet.config
 RUN echo '<?xml version="1.0" encoding="utf-8"?>' > NuGet.config && \
@@ -16,7 +17,7 @@ RUN echo '<?xml version="1.0" encoding="utf-8"?>' > NuGet.config && \
 # Restore AuthServer dependencies
 RUN dotnet restore "Auth/AuthServer/AuthServer.csproj" --configfile NuGet.config --force --no-cache
 
-# Copy AuthServer source code (all directories)
+# Copy AuthServer source code
 COPY Auth/AuthServer/Controllers Auth/AuthServer/Controllers
 COPY Auth/AuthServer/Data Auth/AuthServer/Data
 COPY Auth/AuthServer/Entity Auth/AuthServer/Entity
