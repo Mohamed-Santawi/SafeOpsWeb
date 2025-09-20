@@ -20,6 +20,8 @@ RUN dotnet publish "AuthServer.csproj" -c Release -o /app/publish --no-restore
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
 COPY --from=build /app/publish .
+
 EXPOSE 80
 EXPOSE 443
+
 ENTRYPOINT ["dotnet", "AuthServer.dll"]
