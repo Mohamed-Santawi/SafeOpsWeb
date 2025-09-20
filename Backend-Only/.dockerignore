@@ -1,0 +1,13 @@
+# Ignore unnecessary files
+**/bin/
+**/obj/
+**/.vs/
+**/.vscode/
+**/node_modules/
+**/.git/
+**/.gitignore
+**/README.md
+**/*.md
+**/*.png
+**/*.jpg
+**/*.jpeg

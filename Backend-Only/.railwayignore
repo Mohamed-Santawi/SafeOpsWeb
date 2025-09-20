@@ -1,0 +1,7 @@
+# Ignore everything except Backend-Only directory
+../*
+!AuthServer/
+!AuthShared/
+!Dockerfile
+!railway.json
+!README.md
