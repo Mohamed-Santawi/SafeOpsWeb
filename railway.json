@@ -1,6 +1,6 @@
 {
   "build": {
     "builder": "DOCKERFILE",
-    "dockerfilePath": "SafeOpsBlazor/SafeOpsWeb/Dockerfile"
+    "dockerfilePath": "SafeOpsBlazor/SafeOpsWeb/Dockerfile.frontend"
   }
 }
