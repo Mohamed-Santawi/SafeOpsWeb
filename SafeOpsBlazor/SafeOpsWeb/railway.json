@@ -1,7 +1,7 @@
 {
   "build": {
     "builder": "DOCKERFILE",
-    "dockerfilePath": "Dockerfile"
+    "dockerfilePath": "SafeOpsBlazor/SafeOpsWeb/Dockerfile"
   },
   "deploy": {
     "startCommand": "nginx -g \"daemon off;\"",
