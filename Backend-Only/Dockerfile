@@ -10,7 +10,7 @@ RUN dotnet restore "AuthServer.csproj"
 
 # Copy source code
 COPY AuthServer .
-COPY AuthShared .
+COPY AuthShared AuthShared/
 
 # Build and publish
 RUN dotnet build "AuthServer.csproj" -c Release --no-restore
