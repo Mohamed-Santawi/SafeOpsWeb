@@ -1,0 +1,124 @@
+﻿@page "/maintenance/add-maintenance-order"
+@inject IStringLocalizer<Lang> localizer 
+@inject AuthenticationStateProvider authenticationStateProvider;
+@inject MaintenaceClientService maintenaceClientService;
+@inject ToastService toastService;
+
+
+
+
+@* toast *@
+<SfToast @ref="sfToast" />
+
+
+<div class="container" style="margin-top: 31px;">
+    <div class="card">
+        <div class="card-body">
+            <EditForm Model="maintenanceOrderSharedModel" OnValidSubmit="OnVaildSubmit" > 
+            <div class="row">
+                <div class="col">
+                    <h1 class="text-uppercase text-center text-bg-success p-5">Maintenance</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 mb-2">
+                    <div class="input-group">
+                        <span class="input-group-text">@localizer["YourName"]</span>
+                        @if (authenticationState is not null)
+                        {
+                            <input disabled class="form-control" value="@authenticationState.User.Identity.Name" type="text" />
+                        }
+                    </div>
+                </div>
+                <div class="col-12 mb-2">
+                    <div class="input-group">
+                        <span class="input-group-text">@localizer["Subject"]</span>
+                        <InputText @bind-Value="@maintenanceOrderSharedModel.Title" class="form-control" type="text" />
+                        </div>
+                </div>
+                <div class="col-12 mb-2">
+                    <h6>@localizer["Description"]</h6>
+                    <div class="input-group">
+                        <InputTextArea @bind-Value="@maintenanceOrderSharedModel.Description" class="form-control" style="height: 150px;"> </InputTextArea>
+                        </div>
+                </div>
+                <div class="col-12 mb-2">
+                    <div class="input-group">
+                        <span class="input-group-text">@localizer["FileUpload"]</span>
+                        <InputFile OnChange="HandleFileSelected" class="form-control" />
+                    </div>
+                </div>
+                <div class="col-12 mb-2">
+                    <button class="btn btn-primary" type="submit">@localizer["SendOrder"]</button>
+                    </div>
+            </div>
+
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    #region Fields  
+
+    //maintenance order shared model
+    private MaintenanceOrderSharedModel maintenanceOrderSharedModel = new MaintenanceOrderSharedModel();
+
+
+
+    //sf toast
+    private SfToast sfToast;
+    #endregion
+
+
+    #region Events
+
+
+    AuthenticationState authenticationState;
+
+    protected async override Task OnInitializedAsync()
+    {
+        authenticationState = await authenticationStateProvider.GetAuthenticationStateAsync();
+    }
+
+
+    private async Task HandleFileSelected(InputFileChangeEventArgs e)
+    {
+        if(e.File is not null)
+        {
+            using var stream = e.File.OpenReadStream(maxAllowedSize: 10_000_000);
+
+            var buffer = new byte[e.File.Size];
+
+            await stream.ReadAsync(buffer);
+
+            var fileContent = Convert.ToBase64String(buffer);
+
+
+            maintenanceOrderSharedModel.File = fileContent;
+
+            maintenanceOrderSharedModel.FileExtension = Path.GetExtension(e.File.Name);
+
+        }
+    }
+
+    private async Task OnVaildSubmit()
+    {
+
+        var response = await maintenaceClientService.AddMaintenanceOrder(maintenanceOrderSharedModel);
+
+        if(response.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            await toastService.ShowSuccess(sfToast,localizer["OrderSentSuccessfully"],localizer[""]);
+        }
+
+        else
+        {
+             await toastService.ShowError(sfToast,localizer["Error"],localizer["ErrorOccured"]);
+        }
+    }
+
+    #endregion
+
+}

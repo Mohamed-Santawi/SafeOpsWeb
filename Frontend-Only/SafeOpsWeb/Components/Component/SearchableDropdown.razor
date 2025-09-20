@@ -1,0 +1,32 @@
+﻿@typeparam TItem
+
+<div>
+    <InputText @bind-Value="SearchText" placeholder="Search here..." class="form-control mb-2" />
+
+    <InputSelect @bind-Value="SelectedItem" class="form-select">
+        @foreach (var item in FilteredItems)
+        {
+            <option value="@GetId(item)">@GetDisplayValue(item)</option>
+        }
+    </InputSelect>
+</div>
+
+@code {
+    [Parameter] public IEnumerable<TItem> Items { get; set; } = Enumerable.Empty<TItem>();
+    [Parameter] public Func<TItem, object> GetId { get; set; }
+    [Parameter] public Func<TItem, string> GetDisplayValue { get; set; }
+    [Parameter] public EventCallback<int> OnSelectedItemChanged { get; set; }
+
+    private string SearchText = string.Empty;
+    [Parameter]
+    public int SelectedItem { get; set; }
+
+    private IEnumerable<TItem> FilteredItems =>
+        Items.Where(i => GetDisplayValue(i).Contains(SearchText, StringComparison.OrdinalIgnoreCase));
+
+    private async Task OnSelectionChange(Microsoft.AspNetCore.Components.ChangeEventArgs e)
+    {
+        SelectedItem = Convert.ToInt32(e.Value);
+        await OnSelectedItemChanged.InvokeAsync(SelectedItem);
+    }
+}
