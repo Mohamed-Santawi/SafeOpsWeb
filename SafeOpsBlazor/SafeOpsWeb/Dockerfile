@@ -1,12 +1,17 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /app
 
-# Copy SafeOpsWeb.csproj and AuthShared.csproj
+# Copy project files
 COPY ["SafeOpsWeb.csproj", "."]
+
+# Copy AuthShared project reference
 COPY ["../../Auth/AuthShared/AuthShared.csproj", "../../Auth/AuthShared/"]
 
 # Restore dependencies
 RUN dotnet restore "SafeOpsWeb.csproj"
+
+# Copy AuthShared source
+COPY ["../../Auth/AuthShared/", "../../Auth/AuthShared/"]
 
 # Copy the rest of the source code
 COPY . .
