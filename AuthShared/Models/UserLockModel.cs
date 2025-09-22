@@ -1,0 +1,14 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace AuthShared.Models
+{
+    public class UserLockModel
+    {
+        public string UserId { get; set; } 
+        public int LockDurationInMinutes { get; set; } 
+    }
+}

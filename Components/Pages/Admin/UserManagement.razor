@@ -1,0 +1,461 @@
+﻿@page "/admin/user-management"
+@inject UserClientService userClientService;
+@inject MajorClientService majorClientService;
+@inject SectionClientService sectionClientService;
+@inject ToastService toastService;
+@inject IStringLocalizer<Lang> localizer;
+@inject RoleClientService roleClientService;
+
+
+
+<SfToast @ref="sfToast" />
+<SfSpinner Visible="isBusy" />
+
+
+@* issues *@
+<div class="container" style="display:@issueContainerDisplayType.ToString() !important;"></div>
+
+
+@* modal edit user  *@
+
+<ModalForm OnVaildSubmit="OnValidEditSubmit" @ref="modalFormEditUser" FormModel="selectedUserInformations">
+
+
+    <Header>
+
+    </Header>
+
+    <Body>
+
+        <div class="input-group" style="margin-bottom: 10px;">
+            <span class="input-group-text">UserName</span>
+            <InputText @bind-Value="selectedUserInformations.UserName" class="form-control" type="text" />
+        </div>
+        <div class="input-group" style="margin-bottom: 10px;">
+            <span class="input-group-text">Email</span>
+            <InputText @bind-Value="selectedUserInformations.Email" class="form-control" type="text" />
+        </div>
+        <div class="input-group" style="margin-bottom: 10px;">
+            <span class="input-group-text">Phone code</span>
+            <InputText @bind-Value="selectedUserInformations.PhoneCode" class="form-control" type="text" />
+
+        </div>
+
+        <div class="input-group" style="margin-bottom: 10px;">
+            <span class="input-group-text">Phone number</span>
+            <InputText @bind-Value="selectedUserInformations.PhoneNumber" class="form-control" type="text" />
+        </div>
+
+        <div class="input-group" style="margin-bottom: 10px;">
+            <span class="input-group-text">First name</span>
+            <InputText @bind-Value="selectedUserInformations.FirstName" class="form-control" type="text" />
+        </div>
+        <div class="input-group" style="margin-bottom: 10px;">
+            <span class="input-group-text">Middle name</span>
+            <InputText @bind-Value="selectedUserInformations.MiddleName" class="form-control" type="text" />
+
+        </div>
+        <div class="input-group" style="margin-bottom: 10px;">
+            <span class="input-group-text">Last name</span>
+            <InputText @bind-Value="selectedUserInformations.LastName" class="form-control" type="text" />
+
+        </div>
+        <div class="input-group" style="margin-bottom: 10px;">
+            <span class="input-group-text">Major</span>
+
+            <InputSelect @bind-Value="selectedUserInformations.Major.id" class="form-control">
+
+                @foreach (var major in majorSharedModels)
+                {
+                    <option value="@major.id">@major.name</option>
+                }
+
+            </InputSelect>
+
+        </div>
+        <div class="input-group" style="margin-bottom: 10px;">
+            <span class="input-group-text">Section</span>
+
+            <InputSelect @bind-Value="selectedUserInformations.Section.id" class="form-control">
+
+                @foreach (var secion in sectionSharedModels)
+                {
+                    <option value="@secion.id">@secion.name</option>
+                }
+
+            </InputSelect>
+
+
+        </div>
+        <div class="input-group" style="margin-bottom: 10px;">
+            <span class="input-group-text">Role</span>
+
+            <InputSelect @bind-Value="selectedUserInformations.Role" class="form-control" type="text">
+
+                @if (Roles is not null)
+                {
+
+                    @foreach (var role in Roles)
+                    {
+                        <option value="@role.Name">
+                            @role.Name
+                        </option>
+                    }
+
+                }
+
+            </InputSelect>
+        </div>
+
+    </Body>
+
+    <Footer>
+        @if (isBusy == false)
+        {
+            <button type="submit" class="btn btn-success">
+
+            @localizer["Save"]
+
+            <span class="bi bi-save-fill" />
+        </button>
+
+        }
+
+    </Footer>
+
+</ModalForm>
+
+@* main container *@
+<div class="container" style="margin-top: 17px; display:@containerDisplayType.ToString() !important;">
+    <div class="card">
+        <div class="card-body">
+            <div class="row" style="padding-top: 16px;padding-bottom: 18px;">
+                <div class="col">
+                    <h1 class="text-uppercase text-center text-bg-success p-5" style="box-shadow: 0px 0px;">User management</h1>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="input-group">
+                        <span class="input-group-text input-group-text">@localizer["Search"]</span>
+                        <input @oninput="UpdateSearchText" @onkeypress="OnSearchKeyPressed" class="form-control form-control" placeholder="@localizer["SearchByUserName"]" type="text" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="padding-bottom: 12px;">
+                <div class="col">
+
+                    @* quick grid  *@
+
+                    <div class="table-responsive text-nowrap">
+
+                        <QuickGrid Class="table" TGridItem="UserInformations" Items="userInformations">
+
+                            <TemplateColumn>
+                                <button @onclick="async () => {await OnEditUser(context);}" class="btn btn-warning">
+
+                                    <span class="bi bi-pencil-fill"></span>
+                                </button>
+
+                                @if (context.IsUserLocked)
+                                {
+                                    @if (isBusy == false)
+                                    {
+                                        <button @onclick="async () => {await LockOrUnLockUser(context);}" class="ms-2 btn btn-warning">
+                                            <span class="bi bi-unlock-fill"></span>
+                                        </button>
+                                    }
+                                }
+                                else
+                                {
+                                    @if (isBusy == false)
+                                    {
+                                        <button @onclick="async () => {await LockOrUnLockUser(context);}" class="ms-2 btn btn-danger">
+                                            <span class="bi bi-lock-fill"></span>
+                                        </button>
+                                    }
+                                }
+                            </TemplateColumn>
+
+                            <PropertyColumn Title="@localizer["UserName"]" Property="p => p.UserName " />
+                            <PropertyColumn Title="@localizer["Email"]" Property="p => p.Email " />
+                            <PropertyColumn Title="@localizer["PhoneCode"]" Property="p => p.PhoneCode " />
+                            <PropertyColumn Title="@localizer["PhoneNumber"]" Property="p => p.PhoneNumber " />
+                            <PropertyColumn Title="@localizer["FirstName"]" Property="p => p.FirstName " />
+                            <PropertyColumn Title="@localizer["MiddleName"]" Property="p => p.MiddleName " />
+                            <PropertyColumn Title="@localizer["LastName"]" Property="p => p.LastName " />
+                            <PropertyColumn Title="@localizer["Major"]" Property="p => p.Major.name " />
+                            <PropertyColumn Title="@localizer["Section"]" Property="p => p.Section.name " />
+                            <PropertyColumn Title="@localizer["Role"]" Property="p => p.Role " />
+
+                        </QuickGrid>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code {
+    #region Fields
+
+    //modal
+    UserInformations selectedUserInformations = new()
+        { Major = new(), Section = new() };
+    ModalForm modalFormEditUser = new();
+
+    //search
+    string searchText;
+
+    //sftoast
+    SfToast sfToast;
+
+    //roles
+    List<RoleSharedModel> Roles = new List<RoleSharedModel>();
+
+
+    //majors
+    List<MajorSharedModel> majorSharedModels = new();
+
+
+    //sections
+    List<SectionSharedModel> sectionSharedModels = new();
+
+    //container
+    DisplayType containerDisplayType = DisplayType.block;
+
+
+    
+
+    //quick grid
+
+    IQueryable<UserInformations> userInformations;
+    IQueryable<UserInformations> userInfirmationsStatic;
+
+    //background work
+    private bool isBusy;
+
+
+    //issue container
+    DisplayType issueContainerDisplayType = DisplayType.none;
+
+    #endregion
+
+
+    #region Events
+
+    void OnSearchKeyPressed(KeyboardEventArgs keyboardEventArgs)
+    {
+        if (keyboardEventArgs.Key == "Enter")
+        {
+            isBusy = true;
+            StateHasChanged();
+            var users = SearchUser(searchText, userInfirmationsStatic);
+
+            //convert users to Iquery
+            userInformations = users.AsQueryable();
+            isBusy = false;
+            StateHasChanged();
+        }
+    }
+
+    void UpdateSearchText(Microsoft.AspNetCore.Components.ChangeEventArgs e)
+    {
+        searchText = e.Value?.ToString();
+
+        if (string.IsNullOrEmpty(searchText))
+        {
+            userInformations = userInfirmationsStatic;
+            StateHasChanged();
+        }
+    }
+
+
+
+    async Task OnValidEditSubmit()
+    {
+        isBusy = true;
+        var result = await userClientService.UpdateUserInformationsAsync(RoleDeleteType.All, selectedUserInformations);
+
+        if (result.IsSuccessStatusCode)
+        {
+            await toastService.ShowSuccess(sfToast, localizer["UserInfoUpdated"], localizer["Success"]);
+        }
+        if (result.StatusCode == System.Net.HttpStatusCode.Conflict)
+        {
+            await toastService.ShowWarning(sfToast, localizer["EmailDuplicated"], localizer["!!!"]);
+        }
+        else
+        {
+            await toastService.ShowError(sfToast, localizer["ErrorOccured"], localizer["Error"]);
+        }
+        isBusy = false;
+
+    }
+
+    protected async override Task OnInitializedAsync()
+    {
+        Task.Run(async () =>
+        {
+            isBusy = true;
+            await InvokeAsync(StateHasChanged);
+            //get roles
+            var roles = await GetRolesAsync();
+            Roles = roles.ToList();
+            //get majors
+            var majors = await GetMajors();
+            majorSharedModels = majors.ToList();
+            //get sections
+            var sections = await GetSections();
+            sectionSharedModels = sections.ToList();
+            //get users
+            userInfirmationsStatic = await GetUsers();
+            userInformations = userInfirmationsStatic;
+
+            isBusy = false;
+            await InvokeAsync(StateHasChanged);
+        });
+    }
+
+
+    async Task OnEditUser(UserInformations userInformations)
+    {
+        selectedUserInformations = userInformations;
+
+        modalFormEditUser.Show();
+    }
+
+
+    #endregion
+
+
+    #region Methods
+
+    private IEnumerable<UserInformations> SearchUser(string userName, IQueryable<UserInformations> userInformations)
+    {
+
+        var filteredUsers = userInformations.Where(u => u.UserName.Contains(userName));
+        return filteredUsers.ToList();
+
+    }
+
+    private async Task LockOrUnLockUser(UserInformations userInformations)
+    {
+        isBusy = true;
+        if (!userInformations.IsUserLocked)
+        {
+            var result = await userClientService.LockOrUnlockUserAsync(new UserLockModel
+                {
+                    LockDurationInMinutes = Convert.ToInt32(TimeSpan.FromDays(312).TotalMinutes),
+                    UserId = userInformations.Id
+                });
+
+            if (result.IsSuccessStatusCode)
+            {
+                await toastService.ShowSuccess(sfToast, localizer["BloickedSuccess"], localizer["Success"]);
+
+                userInformations.IsUserLocked = true;
+            }
+
+
+        }
+
+        else
+        {
+            var result = await userClientService.LockOrUnlockUserAsync(new UserLockModel
+                {
+                    LockDurationInMinutes = 0,
+                    UserId = userInformations.Id
+                });
+
+            if (result.IsSuccessStatusCode)
+            {
+                await toastService.ShowSuccess(sfToast, localizer["UnBloickedSuccess"], localizer["Success"]);
+
+                userInformations.IsUserLocked = false;
+            }
+        }
+
+
+        isBusy = false;
+    }
+
+
+    private async Task<IEnumerable<MajorSharedModel>> GetMajors()
+    {
+        var majors = await majorClientService.GetAllMajors();
+
+        if (majors is not null && majors.ToList().Count > 0)
+        {
+            return majors;
+        }
+
+        else
+        {
+            await toastService.ShowError(sfToast, localizer["NoMajors"], "!!!");
+            return null;
+        }
+    }
+
+
+    private async Task<IEnumerable<RoleSharedModel>> GetRolesAsync()
+    {
+
+        var roles = await roleClientService.GetRolesAsync();
+
+        if (roles.ToList().Count > 0 && roles is not null)
+        {
+            return roles;
+        }
+
+        return null;
+
+
+    }
+
+
+    private async Task<IEnumerable<SectionSharedModel>> GetSections()
+    {
+        var sections = await sectionClientService.GetAllSections();
+
+        if (sections is not null && sections.ToList().Count > 0)
+        {
+            return sections;
+        }
+
+        else
+        {
+            await toastService.ShowError(sfToast, localizer["NoSection"], "!!!");
+            return null;
+        }
+    }
+
+
+    private async Task<IQueryable<UserInformations>> GetUsers()
+    {
+
+        try
+        {
+            var usersInfo = await userClientService.GetInformations();
+
+
+            return usersInfo.AsQueryable();
+        }
+
+        catch
+        {
+            return null;
+
+        }
+    }
+
+    #endregion
+
+
+
+}
