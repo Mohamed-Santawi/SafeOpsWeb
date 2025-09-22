@@ -18,7 +18,6 @@ namespace SafeOpsWeb.Helper
         #region Properties
 
 #if DEBUG
-
         public RegisterModelShared RandomRegisterModelSharedValue
         {
             get
@@ -37,21 +36,17 @@ namespace SafeOpsWeb.Helper
 
                 return registerModelShared;
             }
-
+        }
 #endif
 
-            #endregion
+        #endregion
 
+        #region Constructor 
 
-            #region Constructor 
+        #endregion
 
-            #endregion
+        #region Methods
 
-            #region Methods
-
-
-
-            #endregion
-        }
+        #endregion
     }
 }
