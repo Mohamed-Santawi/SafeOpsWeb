@@ -6,13 +6,14 @@ WORKDIR /app
 
 # Copy project files
 COPY ["SafeOpsWeb.csproj", "."]
-COPY ["AuthShared/AuthShared.csproj", "AuthShared/"]
+COPY ["../../Backend-Only/AuthShared/AuthShared.csproj", "AuthShared/"]
 
 # Restore dependencies
 RUN dotnet restore "SafeOpsWeb.csproj"
 
 # Copy source code
 COPY . .
+COPY ["../../Backend-Only/AuthShared", "AuthShared/"]
 
 # Build and publish the Blazor WebAssembly app
 RUN dotnet publish "SafeOpsWeb.csproj" -c Release -o /app/publish --no-restore
