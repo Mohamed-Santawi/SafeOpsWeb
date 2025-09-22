@@ -1,5 +1,5 @@
 {
-  "buildCommand": "dotnet publish -c Release -o dist",
+  "buildCommand": "chmod +x build.sh && ./build.sh",
   "outputDirectory": "dist/wwwroot",
   "rewrites": [
     {

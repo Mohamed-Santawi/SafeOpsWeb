@@ -1,0 +1,12 @@
+{
+  "name": "safeops-web",
+  "version": "1.0.0",
+  "description": "SafeOps Safety Management System - Frontend",
+  "scripts": {
+    "build": "chmod +x build.sh && ./build.sh",
+    "dev": "dotnet run"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
