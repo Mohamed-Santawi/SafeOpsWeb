@@ -18,9 +18,24 @@ using Swashbuckle.AspNetCore.Filters;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Configure port for Railway
+builder.WebHost.UseUrls("http://0.0.0.0:8080");
+
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddRazorPages();
+
+// Add CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -38,6 +53,9 @@ builder.Services.AddSwaggerGen(options =>
     //opreation filter security requirements opreation filter
     options.OperationFilter<SecurityRequirementsOperationFilter>();
 });
+
+// Add EmailService
+builder.Services.AddEmailService(EmailService.EmailServiceType.Gmail);
 
 builder.Services.AddDbContext<AuthServer.Data.AppUserDataContext>(options =>
 {
@@ -74,6 +92,9 @@ builder.Services.AddIdentity<AppUserEntity, IdentityRole>(options =>
 }).AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<AuthServer.Data.AppUserDataContext>();
 
+// Add EmailSender service
+builder.Services.AddScoped<IEmailSender<AppUserEntity>, IdentityEmailSender>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -83,18 +104,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// Use CORS
+app.UseCors("AllowFrontend");
+
 app.MapIdentityApi<AppUserEntity>();
 
 app.UseHttpsRedirection();
-
-// Serve static files from both wwwroot and frontend
-app.UseStaticFiles();
-app.UseStaticFiles(new StaticFileOptions
-{
-    FileProvider = new Microsoft.Extensions.FileProviders.PhysicalFileProvider(
-        Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "frontend")),
-    RequestPath = "/frontend"
-});
 
 app.UseRouting();
 app.UseAuthorization();
@@ -104,9 +119,6 @@ app.MapControllers();
 // Add health check endpoint
 app.MapGet("/health", () => "OK");
 app.MapRazorPages();
-
-// Serve frontend for non-API routes
-app.MapFallbackToFile("frontend/index.html");
 
 // Add API info endpoint
 app.MapGet("/api/info", () => new { 

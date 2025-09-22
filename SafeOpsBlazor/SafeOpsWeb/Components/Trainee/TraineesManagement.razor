@@ -24,7 +24,7 @@
     <Header>
 
     </Header>
-    
+
 
     <Body>
 
@@ -177,7 +177,7 @@
         }
 
 
-    
+
 
     </Body>
 
@@ -235,8 +235,8 @@
 
     <div class="row">
         <div class="col-12 col-md-2">
-           
-           @*  Show Add new trainee dialog button *@ 
+
+           @*  Show Add new trainee dialog button *@
             <button @onclick="ShowAddNewTraineeDialog" class="btn btn-dark w-100" type="button">
                 <span class="bi bi-plus-circle-fill"></span>
             </button>
@@ -244,7 +244,7 @@
             </div>
         <div class="col-md-10 mt-sm-3 mt-3 mt-md-0 col-12">
 
-            
+
             <div class="input-group mb-1">
                 <div class="input-group-prepend">
 
@@ -266,13 +266,13 @@
     <QuickGrid   Class="table text-nowrap h-100 w-100" Items="Trainees">
 
 
-       
-       
+
+
         <TemplateColumn Title="Actions">
 
             <!--View button-->
-            <button class="btn btn-primary" @onclick="() => ViewTrainee(context)" > 
-                <span class="bi bi-eye-fill"></span> 
+            <button class="btn btn-primary" @onclick="() => ViewTrainee(context)" >
+                <span class="bi bi-eye-fill"></span>
                 </button>
 
                 <!--Delete button-->
@@ -291,7 +291,7 @@
                 </button>
         </TemplateColumn>
 
-       
+
 
 
 
@@ -314,7 +314,7 @@
 
 
 
-        
+
     </QuickGrid>
 </div>
 
@@ -335,7 +335,7 @@
 
 
 
-        
+
         <li class="page-item">
 
             <NextPageButton IsDisabled="@isNextPageDisabled" OnNextClicked="NextTrainees" />
@@ -599,14 +599,14 @@
 
 
             //display alert if user want to add trainee or not
-            var resultAdd = await Application.Current.MainPage.DisplayAlert(Localizer["AddTrainee"], Localizer["AddTraineeConfirmation"], Localizer["Yes"], Localizer["No"]);
+            var resultAdd = await jsRuntime.InvokeAsync<bool>("confirm", Localizer["AddTraineeConfirmation"]);
 
 
             if (resultAdd)
             {
                 if (TraineeSharedInfo.ProfileImage is null)
                 {
-                    await Application.Current.MainPage.DisplayAlert("Error", "Please select a profile image", "Ok");
+                    await jsRuntime.InvokeVoidAsync("alert", "Please select a profile image");
                     return;
                 }
 
@@ -641,7 +641,7 @@
         else
         {
             //display alert if user want to update trainee or not
-            var resultUpdate = await Application.Current.MainPage.DisplayAlert(Localizer["UpdateTrainee"], Localizer["UpdateTraineeConfirmation"], Localizer["Yes"], Localizer["No"]);
+            var resultUpdate = await jsRuntime.InvokeAsync<bool>("confirm", Localizer["UpdateTraineeConfirmation"]);
 
 
             if (resultUpdate)
@@ -727,7 +727,7 @@
     private async Task DeleteTrainee(TraineeShared traineeShared)
     {
 
-        bool result = await Application.Current.MainPage.DisplayAlert(Localizer["Delete"], Localizer["DeleteConfirmation"], Localizer["Yes"], Localizer["No"]);
+        bool result = await jsRuntime.InvokeAsync<bool>("confirm", Localizer["DeleteConfirmation"]);
 
         if (result)
         {
@@ -833,7 +833,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        //get trainnees 
+        //get trainnees
 
         IsBusy = true;
 
@@ -844,7 +844,7 @@
         await LogInfo(" simulating delay ");
 
         #endif
-        
+
 
         var traineeResult = await traineeClientService.GetTraineesAsync(1,10);
 

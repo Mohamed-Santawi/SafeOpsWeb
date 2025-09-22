@@ -7,7 +7,7 @@ using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SafeOpsWeb.Services   
+namespace SafeOpsWeb.Services
 {
     public class UserClientService
     {
@@ -20,7 +20,7 @@ namespace SafeOpsWeb.Services
 
         #region Events
 
-        public event EventHandler OnUnAuth;
+        public event EventHandler? OnUnAuth;
 
         #endregion
 

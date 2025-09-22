@@ -56,14 +56,14 @@ public class ViolationClientService
 
     #region Events
 
-    public event OnViolationCreatedEventHandler OnViolationCreated;
-    public event OnViolationDeletedEventHandler OnViolationDeleted;
-    public event EventHandler<HttpResponseMessage> OnError;
-    public event OnViolationInvokedEventHandler OnViolationInvoked;
-    public event OnViolationInvokingEventHandler OnViolationInvoking;
-    public event OnViolationCreatingEventHandler OnViolationCreating;
-    public event OnViolationDeletingEventHandler OnViolationDeleting;
-    public event EventHandler UnAuthorized;
+    public event OnViolationCreatedEventHandler? OnViolationCreated;
+    public event OnViolationDeletedEventHandler? OnViolationDeleted;
+    public event EventHandler<HttpResponseMessage>? OnError;
+    public event OnViolationInvokedEventHandler? OnViolationInvoked;
+    public event OnViolationInvokingEventHandler? OnViolationInvoking;
+    public event OnViolationCreatingEventHandler? OnViolationCreating;
+    public event OnViolationDeletingEventHandler? OnViolationDeleting;
+    public event EventHandler? UnAuthorized;
 
     #endregion
 
@@ -296,7 +296,7 @@ public class ViolationClientService
                 PropertyNameCaseInsensitive = true
             };
 
-            // ÊÍæíá ÇáäÕ JSON Åáì ÇáßÇÆä
+            // ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ JSON ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             var newInfringement = JsonSerializer.Deserialize<InfringementShared>(jsonResponse, options);
 
             return newInfringement;

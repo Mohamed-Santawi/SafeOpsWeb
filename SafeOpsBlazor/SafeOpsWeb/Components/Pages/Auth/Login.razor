@@ -1,15 +1,16 @@
 ﻿@page "/login"
 @using System.Net
-@using SafeOpsBlazor.CustomException
+@using SafeOpsWeb.CustomException
 @inject HttpClient HttpClient
 @inject NavigationManager Navigation
 @inject AuthenticationStateProvider AuthStateProvider
 @inject IStringLocalizer<Lang> Localizer
+@inject IJSRuntime jsRuntime
 
 <EditForm Model="loginModel" OnValidSubmit="VaildLogin">
 
     <section class="position-relative py-4 py-xl-5">
-         
+
         <div class="container">
             <div class="row">
                 <div class="col col-12" style="height: 200px;">
@@ -31,7 +32,7 @@
             <div class="row d-flex justify-content-center">
                 <div class="col-md-6 col-xl-4">
                     <div class="card mb-5">
-                        
+
                         <div class="card-body bg-body d-flex flex-column align-items-center">
                             <div class="bs-icon-xl bs-icon-circle bs-icon-primary bs-icon my-4">
                                 <svg class="bi bi-person user-icon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16">
@@ -99,16 +100,13 @@
 
 
                 if (loginResponseUnauth.Detail == "Failed")
-                    await Application.Current.MainPage.DisplayAlert(Localizer["Error"], Localizer["InvaildEmailPassword"], Localizer["Ok"]);
+                    await jsRuntime.InvokeVoidAsync("alert", Localizer["InvaildEmailPassword"]);
                 else if (loginResponseUnauth.Detail == "LockedOut")
-                    await Application.Current.MainPage.DisplayAlert(Localizer["Blocked"], Localizer["YouBlocked"], "Ok");
+                    await jsRuntime.InvokeVoidAsync("alert", Localizer["YouBlocked"]);
                 else if (loginResponseUnauth.Detail == "NotAllowed")
                 {
 
-                    bool result = await Application.Current.MainPage.DisplayAlert(Localizer["Error"],
-                        Localizer["PlaseConfirmEmail"],
-                        Localizer["Accept"],
-                        Localizer["Cancel"]);
+                    bool result = await jsRuntime.InvokeAsync<bool>("confirm", Localizer["PlaseConfirmEmail"]);
 
                     if (result)
                     {
@@ -116,27 +114,21 @@
                     }
                 }
                 else
-                    await Application.Current.MainPage.DisplayAlert(Localizer["Error"], Localizer["ErrorOccured"], Localizer["Ok"]);
+                    await jsRuntime.InvokeVoidAsync("alert", Localizer["ErrorOccured"]);
             }
         }
         catch (HttpRequestException httpRequestException)
 
         {
-            Application.Current.MainPage.DisplayAlert(Localizer["Error"]
-                , Localizer["HttpRequestException"]
-                , Localizer["Ok"]);
+            await jsRuntime.InvokeVoidAsync("alert", Localizer["HttpRequestException"]);
         }
         catch(AuthRequestException authRequestException)
         {
-            Application.Current.MainPage.DisplayAlert(Localizer["Error"]
-                , Localizer["AuthRequestException"]
-                , Localizer["Ok"]);
+            await jsRuntime.InvokeVoidAsync("alert", Localizer["AuthRequestException"]);
         }
         catch (Exception ex)
         {
-            Application.Current.MainPage.DisplayAlert(Localizer["Error"]
-                , Localizer["ErrorOccured"]
-                , Localizer["Ok"]);
+            await jsRuntime.InvokeVoidAsync("alert", Localizer["ErrorOccured"]);
         }
     }
 

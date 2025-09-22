@@ -1,6 +1,7 @@
 ﻿@page "/confirmemail"
 @inject IEmailClientService EmailClientService
 @inject IStringLocalizer<Lang> Localizer
+@inject IJSRuntime jsRuntime
 <div class="container">
     <section id="Section-Email-Confirm" style="margin-top: 38px;">
         <div class="row">
@@ -8,7 +9,7 @@
                 <h1>Resend email confirmation 📥</h1>
             </div>
         </div>
-        
+
         <EditForm Model="resendEmailModel" OnValidSubmit="OnVaildSubmit">
             <DataAnnotationsValidator></DataAnnotationsValidator>
             <ValidationMessage For="@(() => resendEmailModel.Email)"/>
@@ -34,13 +35,13 @@
 
 @code {
 
-    #region Fields  
+    #region Fields
     private ResendEmailModel resendEmailModel = new ResendEmailModel();
     private EditContext editContext;
     #endregion
 
     #region Events
-    
+
 
 
     #endregion
@@ -52,11 +53,11 @@
 
         if (serverResponse.Status == 200)
         {
-            Application.Current.MainPage.DisplayAlert(Localizer["Success"], Localizer["EmailSent"], Localizer["Ok"]);
+            await jsRuntime.InvokeVoidAsync("alert", Localizer["EmailSent"]);
         }
         else
         {
-            Application.Current.MainPage.DisplayAlert(Localizer["Error"], Localizer["ErrorOccured"], Localizer["Ok"]);
+            await jsRuntime.InvokeVoidAsync("alert", Localizer["ErrorOccured"]);
         }
     }
 

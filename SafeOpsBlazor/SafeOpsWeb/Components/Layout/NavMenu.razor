@@ -1,4 +1,5 @@
-﻿@using SafeOpsBlazor.CustomException
+﻿@using SafeOpsWeb.CustomException
+@using Microsoft.AspNetCore.Components.Authorization
 @inject IStringLocalizer<Lang> Localizer
 @inject NavigationManager navigationManager
 @inject IJSRuntime jsRuntime
@@ -91,7 +92,7 @@
 
                                 @if(authenticationState is not null)
                                 {
-                                    <tag> 
+                                    <tag>
                                     @authenticationState.User.Identity.Name
                                     </tag>
                                 }
@@ -153,7 +154,7 @@
         </nav>
 
     </Authorized>
-    
+
     <NotAuthorized>
 
     </NotAuthorized>
@@ -183,8 +184,8 @@
             }
             catch (AuthRequestException exception)
             {
-                //show maui message
-                await Application.Current.MainPage.DisplayAlert("!!!", Localizer["NoConnectionWithServer"], Localizer["Cancel"]);
+                //show message
+                await jsRuntime.InvokeVoidAsync("alert", Localizer["NoConnectionWithServer"]);
             };
 
             await InvokeAsync(StateHasChanged);

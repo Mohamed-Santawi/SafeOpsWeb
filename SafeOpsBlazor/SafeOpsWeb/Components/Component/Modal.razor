@@ -20,7 +20,7 @@
             <div class="modal-footer">
 
                 <button @onclick="Close" class="btn btn-light" type="button" data-bs-dismiss="modal">@Localizer["Cancel"]</button>
-               
+
                 @Footer
             </div>
         </div>
@@ -40,19 +40,19 @@
 
     #region Properties
     [Parameter]
-    public string Title { get; set; }
+    public string Title { get; set; } = string.Empty;
     [Parameter]
-    public RenderFragment Header { get; set; }
+    public RenderFragment? Header { get; set; }
     [Parameter]
-    public RenderFragment Body { get; set; }
+    public RenderFragment? Body { get; set; }
     [Parameter]
-    public RenderFragment Footer { get; set; }
+    public RenderFragment? Footer { get; set; }
     [Parameter]
-    public RenderFragment ChildContent { get; set; }
+    public RenderFragment? ChildContent { get; set; }
     [Parameter]
     public EventCallback OnClose { get; set; }
 
-    
+
     #endregion
     #region Methods
     protected override void OnInitialized()

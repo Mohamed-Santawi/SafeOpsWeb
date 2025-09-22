@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Components.Web;
+﻿using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using SafeOpsWeb;
 using SafeOpsWeb.Services;
@@ -13,7 +13,7 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 // Configure HttpClient with your API base URL
 builder.Services.AddScoped(sp => new HttpClient {
-    BaseAddress = new Uri("https://authserver-production-4ea8.up.railway.app/") // Update this URL
+    BaseAddress = new Uri("https://awake-consideration-production-e225.up.railway.app/") // Updated to current backend URL
 });
 
 // Add services
@@ -29,6 +29,7 @@ builder.Services.AddScoped<ToastService>();
 builder.Services.AddScoped<FileService>();
 builder.Services.AddScoped<EmailClientService>();
 builder.Services.AddScoped<TraineeSearchService>();
+builder.Services.AddScoped<AudioManager>();
 
 // Add authentication
 builder.Services.AddAuthorizationCore();
