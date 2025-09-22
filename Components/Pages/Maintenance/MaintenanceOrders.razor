@@ -1,0 +1,477 @@
+﻿@page "/maintenance/orders"
+
+@inject IStringLocalizer<Lang> localizer
+@inject MaintenaceClientService maintenaceClientService
+@inject ToastService toastService;
+@inject HttpClient httpClient;
+
+
+@* stoast *@
+
+<SfToast @ref="sfToast" />
+
+@* spinnet for wating *@
+<SfSpinner Visible="isBusy" />
+
+
+
+
+@* order modal form *@
+
+<ModalForm @ref="modalOrderForm" OnVaildSubmit="SaveOrder" FormModel="selectedOrder">
+
+    <Header>
+
+        <h3>@localizer["OrderDetails"]</h3>
+
+        <ValidationMessage For="() => selectedOrder.Title" />
+        <ValidationMessage For="() => selectedOrder.Description" />
+        <ValidationMessage For="() => selectedOrder.Status" />
+
+    </Header>
+
+    <Body>
+
+        <div class="input-group" style="margin-bottom: 10px;">
+            <span class="input-group-text">@localizer["Sender"]</span>
+            <InputText disabled="disabled" @bind-Value="selectedOrder.OrderBy.FirstName" class="form-control" type="text" />
+        </div>
+
+        <div class="input-group" style="margin-bottom: 10px;">
+            <span class="input-group-text">@localizer["Subject"]</span>
+
+            <InputText disabled="disabled" @bind-Value="selectedOrder.Title" class="form-control" type="text" />
+        </div>
+
+        <div class="input-group" style="margin-bottom: 10px;">
+            <span class="input-group-text">@localizer["Description"]</span>
+            <InputTextArea disabled="disabled" @bind-Value="selectedOrder.Description" class="form-control" type="text" />
+        </div>
+
+
+        <div class="input-group" style="margin-bottom: 10px;">
+            <span class="input-group-text">@localizer["Status"]</span>
+
+            <InputSelect TValue="MaintenanceOrderStatus" ValueExpression="() => selectedOrder.Status" 
+                ValueChanged="(MaintenanceOrderStatus orderStatus) => OnChangeStatus(orderStatus) " Value="selectedOrder.Status">
+
+
+                @foreach (var status in Enum.GetValues(typeof(MaintenanceOrderStatus)))
+                {
+                    <option value="@status">@status.ToString()</option>
+                }
+
+
+            </InputSelect>
+
+
+        </div>
+
+
+        @if(isNotProcessed)
+        {
+        <div class="input-group" style="margin-bottom: 10px;">
+                <span class="input-group-text">@localizer["Reason"]</span>
+                <InputTextArea @bind-Value="selectedOrder.NotProcessedReason" class="form-control" />
+        </div>
+        }
+
+        <div class="input-group" style="margin-bottom: 10px;">
+            <span class="input-group-text">@localizer["File"]</span>
+            <a class="m-3" href="@($"{httpClient.BaseAddress}/Uploads/Files/{selectedOrder.FileName}")">@selectedOrder.FileName</a>
+        </div>
+
+
+
+    </Body>
+
+    <Footer>
+        <button type="submit" class="btn btn-success">@localizer["Save"]</button>
+    </Footer>
+</ModalForm>
+
+@* orders table *@
+<div class="container" style="margin-top: 17px; display:@containerDisplayType.ToString() !important;">
+    <div class="card">
+        <div class="card-body">
+            <div class="row" style="padding-top: 16px;padding-bottom: 18px;">
+                <div class="col">
+                    <h1 class="text-uppercase text-center text-bg-success p-5" style="box-shadow: 0px 0px;">@localizer["Orders"]</h1>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="input-group">
+                        <span class="input-group-text input-group-text">@localizer["Search"]</span>
+                        <input @oninput="UpdateSearchText" @onkeypress="OnSearchKeyPressed" class="form-control form-control" placeholder="@localizer["SearchById"]" type="text" />
+
+                        <InputSelect ValueExpression="() => searchOrderStatus" 
+                            ValueChanged="(MaintenanceOrderStatus maintenanceOrderStatus) => SearchByStatus(maintenanceOrderStatus)"
+                            Value="searchOrderStatus">
+
+                            @foreach (var status in Enum.GetValues(typeof(MaintenanceOrderStatus)))
+                            {
+                                <option value="@status">@status.ToString()</option>
+                            }
+
+                        </InputSelect>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" style="padding-bottom: 12px;">
+                <div class="col">
+
+                    @* quick grid  *@
+
+                    <div class="table-responsive text-nowrap">
+
+                        <QuickGrid Class="table" TGridItem="MaintenanceOrderSharedModel" Items="maintenanceOrderSharedModels">
+
+                            <TemplateColumn>
+                                <button @onclick="() => {ShowOrder(context);}" class="btn btn-warning ms-2 me-2">
+                                    <span class="bi bi-eye-fill"></span>
+                                </button>
+                            </TemplateColumn>
+
+                            <PropertyColumn Title="@localizer["Id"]" Property="m => m.Id " />
+                            <PropertyColumn Title="@localizer["Subject"]" Property="m => m.Title" />
+                            <PropertyColumn Title="@localizer["FirstName"]" Property="m => m.OrderBy.FirstName" />
+                            <PropertyColumn Title="@localizer["LastName"]" Property="m => m.OrderBy.LastName" />
+                            <TemplateColumn Title="@localizer["Status"]">
+
+                                @switch (context.Status.ToString())
+                                {
+                                    case "Pending":
+                                        <span class="badge bg-warning"> @context.Status.ToString() </span>
+                                        break;
+
+                                    case "Processed":
+                                        <span class="badge bg-success"> @context.Status.ToString() </span>
+                                        break;
+
+                                    case "NotProcessed":
+                                        <span class="badge bg-danger"> @context.Status.ToString() </span>
+
+                                        break;
+                                }
+
+                            </TemplateColumn>
+                        </QuickGrid>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-12">
+
+                    <nav>
+                        <ul class="pagination">
+                            <li class="page-item">
+
+                                <PreviousPageButton IsDisabled="@isPreviousPageDisabled" OnPreviousClicked="PreviousOrder" />
+
+                            </li>
+
+                            <li>
+                                <input class="h-100 w-100 text-center" disabled value="@currentPage.ToString()" />
+                            </li>
+
+
+
+
+                            <li class="page-item">
+
+                                <NextPageButton IsDisabled="@isNextPageDisabled" OnNextClicked="NextOrder" />
+
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@code {
+
+    #region Fields
+    //display
+    DisplayType containerDisplayType = DisplayType.block;
+
+
+
+    //orders
+    IQueryable<MaintenanceOrderSharedModel> maintenanceOrderSharedModels;
+
+
+    //selected order
+    MaintenanceOrderSharedModel selectedOrder = new();
+
+
+    //modals
+    ModalForm modalOrderForm;
+
+    //toast
+    SfToast sfToast;
+
+    //work
+    bool isBusy = false;
+
+    //reason
+    bool isNotProcessed;
+
+    //pagination
+    bool isPreviousPageDisabled;
+    bool isNextPageDisabled;
+    int currentPage;
+
+    //search
+    MaintenanceOrderStatus searchOrderStatus;
+    string searchId;
+
+    #endregion
+
+
+
+
+    #region Events
+
+    async Task NextOrder()
+    {
+        isBusy = true;
+
+        if( currentPage >= 0)
+        {
+
+            try
+            {
+                var orders = await GetOrders(++currentPage, 10,searchOrderStatus);
+
+                if (orders is null || !orders.maintenanceOrderSharedModels.Any())
+                {
+                    isNextPageDisabled = true;
+                    isPreviousPageDisabled = false;
+                    --currentPage;
+
+                }
+                else
+
+                {
+
+                    maintenanceOrderSharedModels = orders.maintenanceOrderSharedModels.AsQueryable();
+
+
+                    if (!orders.isThereNextResult)
+                    {
+                        isNextPageDisabled = true;
+                    }
+
+                    else
+                    {
+                        isNextPageDisabled = false;
+                    }
+                }
+
+
+
+
+            }
+
+            catch(ArgumentException aurgument)
+            {
+
+            }
+
+        }
+
+
+
+        isBusy = false;
+    }
+
+    async Task PreviousOrder()
+    {
+        isBusy = true;
+
+        if(currentPage > 0)
+        {
+            var orders = await maintenaceClientService.GetOrders(--currentPage, 10,searchOrderStatus);
+
+            maintenanceOrderSharedModels = orders.maintenanceOrderSharedModels.AsQueryable();
+        }
+
+        else
+        {
+            isNextPageDisabled = false;
+            isPreviousPageDisabled = true;
+        }
+
+        isBusy = false;
+    }
+
+    protected async override Task OnInitializedAsync()
+    {
+        //init
+        maintenanceOrderSharedModels = Enumerable.Empty<MaintenanceOrderSharedModel>().AsQueryable();
+        selectedOrder = new()
+            {
+                OrderBy = new()
+            };
+
+        Task.Run(async () =>
+        {
+            isBusy = true;
+            await InvokeAsync(StateHasChanged);
+            var orders = await GetOrders(0, 10,MaintenanceOrderStatus.All);
+            if (orders is not null)
+            {
+                maintenanceOrderSharedModels = orders.maintenanceOrderSharedModels.AsQueryable();
+            }
+
+            isBusy = false;
+            await InvokeAsync(StateHasChanged);
+        });
+    }
+
+    void UpdateSearchText(Microsoft.AspNetCore.Components.ChangeEventArgs e)
+    {
+        searchId = e.Value?.ToString();
+    }
+
+    async Task OnSearchKeyPressed(KeyboardEventArgs keyboardEventArgs)
+    {
+        if(keyboardEventArgs.Key == "Enter")
+        {
+
+            isBusy = true;
+
+            if (int.TryParse(searchId, out int result))
+            {
+                var orders = await GetOrders(0, 100, searchOrderStatus, Convert.ToInt32(searchId));
+
+                if(orders is null || orders.maintenanceOrderSharedModels.ToList().Count <= 0)
+                {
+                    await toastService.ShowWarning(sfToast, localizer["CannotFindOrders"], "!!!");
+                }
+                else
+                {
+                    maintenanceOrderSharedModels = orders.maintenanceOrderSharedModels.AsQueryable();
+                }
+            }
+
+            isBusy = false;
+        }
+    }
+
+    async Task SearchByStatus(MaintenanceOrderStatus maintenanceOrderStatus)
+    {
+        isBusy = true;
+        searchOrderStatus = maintenanceOrderStatus;
+
+        var orders =  await GetOrders(0, 10, maintenanceOrderStatus);
+
+        if(orders is null || orders.maintenanceOrderSharedModels.ToList().Count <= 0)
+        {
+            await toastService.ShowWarning(sfToast, localizer["CannotFindOrders"], "!!!");
+        }
+
+        else
+        {
+            maintenanceOrderSharedModels = orders.maintenanceOrderSharedModels.AsQueryable();
+        }
+
+
+        isBusy = false;
+    }
+
+    void ShowOrder(object context)
+    {
+        selectedOrder = context as MaintenanceOrderSharedModel;
+
+        if (selectedOrder is not null)
+        {
+            OnChangeStatus(selectedOrder.Status);
+            modalOrderForm.Show();
+        }
+    }
+
+    void OnChangeStatus(MaintenanceOrderStatus e)
+    {
+
+        selectedOrder.Status = e;
+
+        if (e == MaintenanceOrderStatus.NotProcessed)
+        {
+            isNotProcessed = true;
+            return;
+        }
+
+
+        isNotProcessed = false;
+    }
+
+    async Task SaveOrder()
+    {
+        var response = await maintenaceClientService.EditOrderAsync(selectedOrder);
+
+        if (response.StatusCode == System.Net.HttpStatusCode.OK)
+        {
+            await toastService.ShowSuccess(sfToast, localizer["OrderEditSuccessfully"], localizer["Success"]);
+        }
+
+        if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
+        {
+            await toastService.ShowError(sfToast, localizer["OrderNotFound"], localizer["Error"]);
+        }
+
+        if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+        {
+
+            await toastService.ShowError(sfToast, localizer["OrderEditFailed"], localizer["Error"]);
+        }
+    }
+
+    #endregion
+
+
+    #region Methods
+
+
+
+
+
+    public async Task<MaintenanceOrderResult> GetOrders(int current, 
+        int max,
+        MaintenanceOrderStatus maintenanceOrderStatus,
+    int? Id = null)
+    {
+
+        if(current < 0)
+        {
+            throw new ArgumentException("cannot be less than zero" + nameof(current));
+        }
+
+
+        var orders = await maintenaceClientService.GetOrders(current,max,maintenanceOrderStatus,Id);
+
+        if (orders is not null && orders.maintenanceOrderSharedModels.ToList().Count > 0)
+        {
+            return orders;
+        }
+
+        else
+        {
+            await toastService.ShowWarning(sfToast, localizer["CannotFindOrders"], localizer["Warning"]);
+            return null;
+        }
+    }
+
+    #endregion
+}

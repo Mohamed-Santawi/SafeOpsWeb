@@ -1,0 +1,147 @@
+﻿@page "/login"
+@using System.Net
+@using SafeOpsBlazor.CustomException
+@inject HttpClient HttpClient
+@inject NavigationManager Navigation
+@inject AuthenticationStateProvider AuthStateProvider
+@inject IStringLocalizer<Lang> Localizer
+
+<EditForm Model="loginModel" OnValidSubmit="VaildLogin">
+
+    <section class="position-relative py-4 py-xl-5">
+         
+        <div class="container">
+            <div class="row">
+                <div class="col col-12" style="height: 200px;">
+                    <img width="50%" src="/Images/tvtc_logo.svg" height="50%" style="width: 100%;height: 100%;" /></div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <hr />
+                </div>
+            </div>
+            <div class="row mb-5">
+                <div class="col-md-8 col-xl-6 text-center mx-auto">
+                    <h2>@Localizer["Login"]</h2>
+                    <p class="w-lg-50">
+
+                    </p>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center">
+                <div class="col-md-6 col-xl-4">
+                    <div class="card mb-5">
+                        
+                        <div class="card-body bg-body d-flex flex-column align-items-center">
+                            <div class="bs-icon-xl bs-icon-circle bs-icon-primary bs-icon my-4">
+                                <svg class="bi bi-person user-icon" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664z">
+
+                                    </path>
+                                </svg>
+                            </div>
+                    <DataAnnotationsValidator></DataAnnotationsValidator>
+                    @* create a validation message for the email *@
+
+                    @* create a validation message for the password *@
+
+                            <div class="mb-3">
+                                <InputText @bind-Value="@loginModel.Email" class="form-control" type="text" name="username" placeholder="@Localizer["UserName"]"/>
+                                <ValidationMessage For="@(() => loginModel.Email)" />
+                                </div>
+                            <div class="mb-3">
+                                <InputText @bind-Value="@loginModel.Password" class="form-control" type="password" name="password" placeholder="@Localizer["Password"]"/>
+                                <ValidationMessage For="@(() => loginModel.Password)" />
+                                </div>
+                            <div class="mb-3">
+                                <button class="btn btn-primary d-block w-100" type="submit">@Localizer["Login"]</button>
+                            </div>
+                            <NavLink href="reset-password" class="text-muted">@(Localizer["ForgotPassword"] + "?")"</NavLink>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</EditForm>
+
+@code {
+    private LoginModel loginModel = new LoginModel();
+
+    //crare for me a method that will handel the login and authentication and authorization and notifi the AuthStateProvider
+
+
+
+
+
+    private async Task VaildLogin()
+
+    {
+
+        try
+        {
+
+            var response = await HttpClient.PostAsJsonAsync("/login", loginModel);
+            if (response.IsSuccessStatusCode)
+            {
+                LoginResponse loginResponse = await response.Content.ReadFromJsonAsync<LoginResponse>();
+                var authSatate = (ApiAuthenticationStateProvider)AuthStateProvider;
+                loginResponse.username = loginModel.Email;
+                 await authSatate.Login(loginResponse);
+                Navigation.NavigateTo("/");
+            }
+
+            else if (response.StatusCode == HttpStatusCode.Unauthorized)
+            {
+
+                LoginResponseUnauth loginResponseUnauth = await response.Content.ReadFromJsonAsync<LoginResponseUnauth>();
+
+
+                if (loginResponseUnauth.Detail == "Failed")
+                    await Application.Current.MainPage.DisplayAlert(Localizer["Error"], Localizer["InvaildEmailPassword"], Localizer["Ok"]);
+                else if (loginResponseUnauth.Detail == "LockedOut")
+                    await Application.Current.MainPage.DisplayAlert(Localizer["Blocked"], Localizer["YouBlocked"], "Ok");
+                else if (loginResponseUnauth.Detail == "NotAllowed")
+                {
+
+                    bool result = await Application.Current.MainPage.DisplayAlert(Localizer["Error"],
+                        Localizer["PlaseConfirmEmail"],
+                        Localizer["Accept"],
+                        Localizer["Cancel"]);
+
+                    if (result)
+                    {
+                        Navigation.NavigateTo("/ConfirmEmail");
+                    }
+                }
+                else
+                    await Application.Current.MainPage.DisplayAlert(Localizer["Error"], Localizer["ErrorOccured"], Localizer["Ok"]);
+            }
+        }
+        catch (HttpRequestException httpRequestException)
+
+        {
+            Application.Current.MainPage.DisplayAlert(Localizer["Error"]
+                , Localizer["HttpRequestException"]
+                , Localizer["Ok"]);
+        }
+        catch(AuthRequestException authRequestException)
+        {
+            Application.Current.MainPage.DisplayAlert(Localizer["Error"]
+                , Localizer["AuthRequestException"]
+                , Localizer["Ok"]);
+        }
+        catch (Exception ex)
+        {
+            Application.Current.MainPage.DisplayAlert(Localizer["Error"]
+                , Localizer["ErrorOccured"]
+                , Localizer["Ok"]);
+        }
+    }
+
+    // private async Task InvaildLogin()
+    // {
+    //     Application.Current.MainPage.DisplayAlert("Error", "Invaild Email or Password", "Ok");
+    // }
+}

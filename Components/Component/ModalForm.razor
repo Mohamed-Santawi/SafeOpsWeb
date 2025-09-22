@@ -1,0 +1,110 @@
+﻿@inject IStringLocalizer<Lang> Localizer
+<div id="modal-1" class="modal fade show visible @modalAnimation" role="dialog" tabindex="-1" style="display: @modalDisplayType !important;">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+            <EditForm Model="FormModel" OnValidSubmit="OnVaildSubmit">
+
+                <DataAnnotationsValidator />
+
+
+                <div class="modal-header">
+                <h4 class="modal-title">@Title</h4>
+
+                @Header
+
+                <button @onclick="Close" class="btn-close" type="button" aria-label="Close" data-bs-dismiss="modal">
+
+                </button>
+            </div>
+
+            <div class="modal-body">
+                @Body
+            </div>
+            <div class="modal-footer">
+
+                <button @onclick="Close" class="btn btn-light" type="button" data-bs-dismiss="modal">@Localizer["Cancel"]</button>
+               
+                @Footer
+            </div>
+
+            </EditForm>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    #region Fields
+
+    private string modalAnimation;
+
+    private DisplayType modalDisplayType = DisplayType.none;
+
+
+    #endregion
+
+    #region Properties
+    [Parameter]
+    public string Title { get; set; }
+    [Parameter]
+    public RenderFragment Header { get; set; }
+    [Parameter]
+    public RenderFragment Body { get; set; }
+    [Parameter]
+    public RenderFragment Footer { get; set; }
+    [Parameter]
+    public object FormModel { get; set; }
+    [Parameter]
+    public EventCallback OnClose { get; set; }
+    [Parameter]
+    public EventCallback<EditContext> OnVaildSubmit { get; set; }
+
+    
+    #endregion
+    #region Methods
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+
+    public void Show()
+    {
+        modalDisplayType = DisplayType.block;
+        modalAnimation = AnimationCssEffect.FadeDownBig;
+    }
+
+
+    public async Task Hide()
+    {
+        modalAnimation = AnimationCssEffect.FadeOutDownBig;
+        await Task.Run(async () =>
+        {
+            await Task.Delay(500);
+            modalDisplayType = DisplayType.none;
+            await InvokeAsync(StateHasChanged);
+        });
+    }
+    #endregion
+
+    #region Events
+    public async Task Close()
+    {
+        modalAnimation = AnimationCssEffect.FadeOutDownBig;
+
+        await Task.Run(async () =>
+        {
+            await Task.Delay(500);
+            modalDisplayType = DisplayType.none;
+            await InvokeAsync(StateHasChanged);
+        });
+
+
+        if(OnClose.HasDelegate)
+        {
+            await OnClose.InvokeAsync();
+        }
+    }
+    #endregion
+
+}

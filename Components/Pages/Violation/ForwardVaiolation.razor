@@ -1,0 +1,156 @@
+﻿@page "/Forward-Violation"
+
+@inject ViolationClientService violationClientService
+@inject IStringLocalizer<Lang> localizer
+@inject NavigationManager navigationManager
+@inject TraineeClientService traineeClientService
+@inject TraineeDataService traineeDataService
+@inject IJSRuntime jsRuntime
+
+<div class="container"> 
+
+
+    <SfSpinner Size="50" Visible="isBusy"/>
+
+ <div class="row"> 
+
+     <div class="col-12"> 
+
+<h1 class="text-uppercase text-center text-bg-danger p-5">Forwarded Violations</h1>
+
+        </div>
+
+    </div>
+
+
+    <div class="row" style="display:@paragraghNoViolationsDisplayType.ToString() !important;"
+        <div class="col-12">
+            <p> @localizer["NoForwardedViolationFound"] </p>
+        </div>
+    </div>
+
+
+<div class="row">
+    <div class="col-12"> 
+
+<div class="table-responsive">
+
+                <QuickGrid Class="table" TGridItem="ForwardedInfrigementSharedModel" Items="forwardInfrigementModels">
+
+                    <TemplateColumn>
+                        <button class="btn btn-danger" style="display:@quickgridButtonsDisplayType.ToString() !important;"
+                        @onclick="() => GoToViolation(context)">
+                            <span class="bi bi-arrow-right"></span>
+                        </button>
+                    </TemplateColumn>
+
+                    <PropertyColumn Title="Infringement id" Property="f => f.InfringementId" />
+                    <PropertyColumn Title="Forwarded From" Property="f => f.ForwardedFrom"/>
+                        <PropertyColumn Title="Date" Property="f => f.Date"/>
+
+</QuickGrid>
+
+</div>
+
+</div>
+
+    </div>
+</div>
+
+
+
+@code {
+    #region Fields  
+
+    // Forwards Violations
+    private IQueryable<ForwardedInfrigementSharedModel> forwardInfrigementModels;
+
+
+    //
+    private DisplayType paragraghNoViolationsDisplayType = DisplayType.none;
+    private DisplayType quickgridButtonsDisplayType = DisplayType.block;
+
+
+    //background process
+    private bool isBusy = true;
+
+
+
+    #endregion
+
+
+    #region Methods 
+
+
+    private void QuickGridIsBusy()
+    {
+        isBusy = true;
+        quickgridButtonsDisplayType = DisplayType.none;
+    }
+
+    private void QuickGridIsNotBusy()
+    {
+        isBusy = false;
+        quickgridButtonsDisplayType = DisplayType.block;
+    }
+
+    private async Task GoToViolation(ForwardedInfrigementSharedModel forwardedInfrigementSharedModel)
+    {
+
+        QuickGridIsBusy();
+
+        #if DEBUG
+        //simulate delay
+        await jsRuntime.InvokeVoidAsync("console.log", "Simulating delay");
+        await Task.Delay(2000);
+        #endif
+        var trainee = await traineeClientService.GetTraineeByIdAsync(forwardedInfrigementSharedModel.TraineeId);
+
+        if(trainee is not null)
+        {
+            traineeDataService.TraineeSharedData = trainee.Trainee;
+        }
+
+        navigationManager.NavigateTo($"/trainee-violations/{forwardedInfrigementSharedModel.InfringementId}");
+
+        QuickGridIsNotBusy();
+    }
+
+
+
+    private async Task GetForwardedViolations()
+    {
+        var localForwardInfrigementModels = await violationClientService.GetForwardedInfringementsAsync();
+
+        if (localForwardInfrigementModels != null)
+        {
+
+            forwardInfrigementModels = localForwardInfrigementModels.AsQueryable();
+        }
+        else
+        {
+
+        }
+
+    }
+
+    #endregion
+
+
+    #region Events
+
+    protected override async Task OnInitializedAsync()
+    {
+        Task.Run(async () => 
+        { 
+            isBusy = true;
+            await InvokeAsync(StateHasChanged);
+            await GetForwardedViolations();
+            isBusy = false;
+            await InvokeAsync(StateHasChanged);
+        });
+    }
+
+    #endregion
+
+}
