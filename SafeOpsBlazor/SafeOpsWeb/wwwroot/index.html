@@ -51,14 +51,17 @@
     <script src="js/navigation.js"></script>
     <script src="js/audioAndFile.js"></script>
     <script src="_content/Blazored.Typeahead/blazored-typeahead.js"></script>
-    
+
     <script>
       // Vercel-specific configuration
-      window.addEventListener('load', function () {
+      window.addEventListener("load", function () {
         // Ensure proper base path handling for Vercel
-        if (window.location.pathname !== '/' && !window.location.pathname.startsWith('/_')) {
+        if (
+          window.location.pathname !== "/" &&
+          !window.location.pathname.startsWith("/_")
+        ) {
           // Handle client-side routing
-          window.history.replaceState({}, '', '/');
+          window.history.replaceState({}, "", "/");
         }
       });
     </script>
