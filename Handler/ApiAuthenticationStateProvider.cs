@@ -1,41 +1,34 @@
 using Microsoft.AspNetCore.Components.Authorization;
 using System.Net.Http.Headers;
-using System.Runtime.InteropServices;
 using System.Security.Claims;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using AuthShared.Models;
-using SafeOpsWeb.CustomException;
+using Microsoft.JSInterop;
 
-namespace SafeOpsWeb.Auth
+namespace SafeOpsWeb.Handler
 {
     public class ApiAuthenticationStateProvider : AuthenticationStateProvider
     {
+        private readonly HttpClient _httpClient;
+        private readonly IJSRuntime _jsRuntime;
 
-        HttpClient _httpClient;
-
-        public ApiAuthenticationStateProvider(HttpClient httpClient)
+        public ApiAuthenticationStateProvider(HttpClient httpClient, IJSRuntime jsRuntime)
         {
             _httpClient = httpClient;
+            _jsRuntime = jsRuntime;
         }
 
         public async Task Login(LoginResponse loginResponse)
         {
-            await SecureStorage.SetAsync("accessToken", loginResponse.accessToken);
-            await SecureStorage.SetAsync("refreshToken", loginResponse.refreshToken);
+            await _jsRuntime.InvokeVoidAsync("localStorage.setItem", "accessToken", loginResponse.accessToken);
+            await _jsRuntime.InvokeVoidAsync("localStorage.setItem", "refreshToken", loginResponse.refreshToken);
             NotifyAuthenticationStateChanged(GetAuthenticationStateAsync());
         }
 
-
-
-
-
-        
-
         public async Task Logout()
         {
-            SecureStorage.Remove("accessToken");
-            SecureStorage.Remove("refreshToken");
+            await _jsRuntime.InvokeVoidAsync("localStorage.removeItem", "accessToken");
+            await _jsRuntime.InvokeVoidAsync("localStorage.removeItem", "refreshToken");
             _httpClient.DefaultRequestHeaders.Authorization = null;
            
             //assign empty claims
@@ -47,9 +40,9 @@ namespace SafeOpsWeb.Auth
             var identity = new ClaimsIdentity();
             try
             {
-                var accessToken = await SecureStorage.GetAsync("accessToken");
+                var accessToken = await _jsRuntime.InvokeAsync<string>("localStorage.getItem", "accessToken");
 
-                if (accessToken != null)
+                if (!string.IsNullOrEmpty(accessToken))
                 {
                     _httpClient.DefaultRequestHeaders.Authorization =
                         new AuthenticationHeaderValue("Bearer", accessToken);
@@ -68,7 +61,6 @@ namespace SafeOpsWeb.Auth
                             new Claim(ClaimTypes.Role, userInformations.Role ?? "None")
                         };
                         identity = new ClaimsIdentity(claims, "Server authentication");
-
                     }
                 }
                 else
@@ -79,7 +71,8 @@ namespace SafeOpsWeb.Auth
             catch (HttpRequestException ex)
             {
                 Console.WriteLine("Request failed:" + ex.ToString());
-                await Application.Current.MainPage.DisplayAlert("Error", "Request failed check the server!!!", "OK");
+                // For Blazor WebAssembly, we can't show alerts like in MAUI
+                // Consider using a toast notification service instead
             }
 
             return new AuthenticationState(new ClaimsPrincipal(identity));

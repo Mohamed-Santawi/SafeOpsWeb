@@ -12,6 +12,7 @@ using AuthShared.DTOs;
 using AuthShared.Enums;
 using SafeOpsWeb.Helper;
 using SafeOpsWeb.Models;
+using Microsoft.JSInterop;
 
 namespace SafeOpsWeb.Services
 {
@@ -22,6 +23,7 @@ namespace SafeOpsWeb.Services
         #region Fields
 
         private readonly HttpClient httpClient;
+        private readonly IJSRuntime jsRuntime;
 
         #endregion
 
@@ -49,9 +51,10 @@ namespace SafeOpsWeb.Services
         public delegate void ErrorEventHandler(object sender, Exception exception);
 
         #endregion
-        public AuthService(HttpClient httpClient)
+        public AuthService(HttpClient httpClient, IJSRuntime jsRuntime)
         {
             this.httpClient = httpClient;
+            this.jsRuntime = jsRuntime;
         }
 
 
@@ -95,9 +98,9 @@ namespace SafeOpsWeb.Services
 
             return null;
         }
-        public async Task<bool> IsLoggedIn() => !string.IsNullOrEmpty(await SecureStorage.GetAsync("token"));
+        public async Task<bool> IsLoggedIn() => !string.IsNullOrEmpty(await jsRuntime.InvokeAsync<string>("localStorage.getItem", "token"));
 
-        public async Task<bool> IsLoggedIn(string parm) => !string.IsNullOrEmpty(await SecureStorage.GetAsync(parm));
+        public async Task<bool> IsLoggedIn(string parm) => !string.IsNullOrEmpty(await jsRuntime.InvokeAsync<string>("localStorage.getItem", parm));
 
 
         public async Task<ServerResponse> Register(RegisterModelShared registerModel)

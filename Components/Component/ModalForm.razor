@@ -24,7 +24,7 @@
             <div class="modal-footer">
 
                 <button @onclick="Close" class="btn btn-light" type="button" data-bs-dismiss="modal">@Localizer["Cancel"]</button>
-               
+
                 @Footer
             </div>
 
@@ -60,7 +60,7 @@
     [Parameter]
     public EventCallback<EditContext> OnVaildSubmit { get; set; }
 
-    
+
     #endregion
     #region Methods
     protected override void OnInitialized()

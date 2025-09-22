@@ -20,7 +20,7 @@
             <div class="modal-footer">
 
                 <button @onclick="Close" class="btn btn-light" type="button" data-bs-dismiss="modal">@Localizer["Cancel"]</button>
-               
+
                 @Footer
             </div>
         </div>
@@ -52,7 +52,7 @@
     [Parameter]
     public EventCallback OnClose { get; set; }
 
-    
+
     #endregion
     #region Methods
     protected override void OnInitialized()

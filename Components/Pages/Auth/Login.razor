@@ -99,16 +99,13 @@
 
 
                 if (loginResponseUnauth.Detail == "Failed")
-                    await Application.Current.MainPage.DisplayAlert(Localizer["Error"], Localizer["InvaildEmailPassword"], Localizer["Ok"]);
+                    await jsRuntime.InvokeVoidAsync("alert", Localizer["InvaildEmailPassword"]);
                 else if (loginResponseUnauth.Detail == "LockedOut")
-                    await Application.Current.MainPage.DisplayAlert(Localizer["Blocked"], Localizer["YouBlocked"], "Ok");
+                    await jsRuntime.InvokeVoidAsync("alert", Localizer["YouBlocked"]);
                 else if (loginResponseUnauth.Detail == "NotAllowed")
                 {
 
-                    bool result = await Application.Current.MainPage.DisplayAlert(Localizer["Error"],
-                        Localizer["PlaseConfirmEmail"],
-                        Localizer["Accept"],
-                        Localizer["Cancel"]);
+                    bool result = await jsRuntime.InvokeAsync<bool>("confirm", Localizer["PlaseConfirmEmail"]);
 
                     if (result)
                     {
@@ -116,27 +113,21 @@
                     }
                 }
                 else
-                    await Application.Current.MainPage.DisplayAlert(Localizer["Error"], Localizer["ErrorOccured"], Localizer["Ok"]);
+                    await jsRuntime.InvokeVoidAsync("alert", Localizer["ErrorOccured"]);
             }
         }
         catch (HttpRequestException httpRequestException)
 
         {
-            Application.Current.MainPage.DisplayAlert(Localizer["Error"]
-                , Localizer["HttpRequestException"]
-                , Localizer["Ok"]);
+            await jsRuntime.InvokeVoidAsync("alert", Localizer["HttpRequestException"]);
         }
         catch(AuthRequestException authRequestException)
         {
-            Application.Current.MainPage.DisplayAlert(Localizer["Error"]
-                , Localizer["AuthRequestException"]
-                , Localizer["Ok"]);
+            await jsRuntime.InvokeVoidAsync("alert", Localizer["AuthRequestException"]);
         }
         catch (Exception ex)
         {
-            Application.Current.MainPage.DisplayAlert(Localizer["Error"]
-                , Localizer["ErrorOccured"]
-                , Localizer["Ok"]);
+            await jsRuntime.InvokeVoidAsync("alert", Localizer["ErrorOccured"]);
         }
     }
 
