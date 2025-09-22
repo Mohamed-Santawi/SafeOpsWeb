@@ -29,6 +29,7 @@ builder.Services.AddScoped<ToastService>();
 builder.Services.AddScoped<FileService>();
 builder.Services.AddScoped<EmailClientService>();
 builder.Services.AddScoped<TraineeSearchService>();
+builder.Services.AddScoped<AudioManager>();
 
 // Add authentication
 builder.Services.AddAuthorizationCore();

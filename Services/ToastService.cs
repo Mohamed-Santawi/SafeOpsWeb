@@ -1,4 +1,3 @@
-using Plugin.Maui.Audio;
 using SafeOpsWeb.Provider;
 using Syncfusion.Blazor.Notifications;
 using System;
@@ -41,7 +40,7 @@ namespace SafeOpsWeb.Services
 
         public async Task ShowSuccess(SfToast sfToast,string message,string title)
         {
-            audioManager.PlayAudio("notesound1.mp3");
+            await audioManager.PlayAudio("notesound1.mp3");
             ToastModel toastModel = new ToastModel()
             {
                 Content = message,
@@ -60,7 +59,7 @@ namespace SafeOpsWeb.Services
 
         public async Task ShowWarning(SfToast sfToast,string message, string title)
         {
-            audioManager.PlayAudio("notesound1.mp3");
+            await audioManager.PlayAudio("notesound1.mp3");
             ToastModel toastModel = new ToastModel()
             {
                 Content = message,
@@ -80,7 +79,7 @@ namespace SafeOpsWeb.Services
 
         public async Task ShowError(SfToast sfToast,string message, string title)
         {
-            audioManager.PlayAudio("notesound1.mp3");
+            await audioManager.PlayAudio("notesound1.mp3");
             ToastModel toastModel = new ToastModel()
             {
                 Content = message,

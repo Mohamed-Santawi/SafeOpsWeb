@@ -1,27 +1,32 @@
-using Plugin.Maui.Audio;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.JSInterop;
 
 namespace SafeOpsWeb.Manager
 {
     public class AudioManager
     {
         #region Fields  
-        private readonly IAudioManager audioManager;
+        private readonly IJSRuntime jsRuntime;
         #endregion
-        public AudioManager(IAudioManager audioManager)
+        
+        public AudioManager(IJSRuntime jsRuntime)
         {
-            this.audioManager = audioManager;
+            this.jsRuntime = jsRuntime;
         }
-        public async void PlayAudio(string audioPath)
+        
+        public async Task PlayAudio(string audioPath)
         {
+            try
             {
-                var player = audioManager.CreatePlayer(await FileSystem.OpenAppPackageFileAsync(audioPath));
-
-                player.Play();
+                await jsRuntime.InvokeVoidAsync("playAudio", audioPath);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error playing audio: {ex.Message}");
             }
         }
     }

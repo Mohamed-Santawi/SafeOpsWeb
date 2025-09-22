@@ -51,6 +51,6 @@ namespace SafeOpsWeb.Models
         public double BehaviorScore { get; set; }
 
 
-        public ImageSource ProfileImage { get; set; }
+        public string ProfileImage { get; set; }
     }
 }

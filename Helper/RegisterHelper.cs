@@ -41,7 +41,7 @@ namespace SafeOpsWeb.Helper
 
         #endregion
 
-        #region Constructor 
+        #region Constructor
 
         #endregion
 

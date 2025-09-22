@@ -12,6 +12,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Localization" Version="9.0.0" />
     <PackageReference Include="Blazored.Typeahead" Version="4.7.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.QuickGrid" Version="8.0.0" />
     <PackageReference Include="Syncfusion.Blazor.Core" Version="26.1.35" />
     <PackageReference Include="Syncfusion.Blazor.DataForm" Version="26.1.35" />
     <PackageReference Include="Syncfusion.Blazor.Grid" Version="26.1.35" />
