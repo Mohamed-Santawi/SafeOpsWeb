@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SafeOpsWeb.Interfaces
+namespace SafeOpsWeb.Services.Interfaces
 {
     public interface IFileService
     {

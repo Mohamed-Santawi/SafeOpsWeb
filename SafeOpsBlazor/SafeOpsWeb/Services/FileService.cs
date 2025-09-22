@@ -1,6 +1,6 @@
 using System.IO;
 using System.Threading.Tasks;
-using SafeOpsWeb.Interfaces;
+using SafeOpsWeb.Services.Interfaces;
 using Microsoft.JSInterop;
 
 namespace SafeOpsWeb.Services
