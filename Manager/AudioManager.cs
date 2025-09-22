@@ -9,15 +9,15 @@ namespace SafeOpsWeb.Manager
 {
     public class AudioManager
     {
-        #region Fields  
+        #region Fields
         private readonly IJSRuntime jsRuntime;
         #endregion
-        
+
         public AudioManager(IJSRuntime jsRuntime)
         {
             this.jsRuntime = jsRuntime;
         }
-        
+
         public async Task PlayAudio(string audioPath)
         {
             try

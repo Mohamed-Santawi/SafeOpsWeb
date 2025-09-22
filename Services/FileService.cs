@@ -9,7 +9,7 @@ namespace SafeOpsWeb.Services
         public async Task SaveFileAsync(string fileName, string base64Content)
         {
             var bytes = Convert.FromBase64String(base64Content);
-            
+
             // For Blazor WebAssembly, we'll trigger a download
             await DownloadFileAsync(fileName, bytes);
         }
