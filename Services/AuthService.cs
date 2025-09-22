@@ -29,12 +29,12 @@ namespace SafeOpsWeb.Services
 
         #region Events
 
-        public event LoggingHandler OnLoggingIn;
-        public event EventHandler<bool> LoggedIn;
-        public event LoggingHandler OnLoggingOut;
-        public event EventHandler<bool> LoggedOut;
-        public event ErrorEventHandler OnError;
-        public event EventHandler<bool> OnUnauthorized;
+        public event LoggingHandler? OnLoggingIn;
+        public event EventHandler<bool>? LoggedIn;
+        public event LoggingHandler? OnLoggingOut;
+        public event EventHandler<bool>? LoggedOut;
+        public event ErrorEventHandler? OnError;
+        public event EventHandler<bool>? OnUnauthorized;
 
         #endregion
 

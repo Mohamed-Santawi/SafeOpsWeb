@@ -13,8 +13,8 @@
 
 @code {
     [Parameter] public IEnumerable<TItem> Items { get; set; } = Enumerable.Empty<TItem>();
-    [Parameter] public Func<TItem, object> GetId { get; set; }
-    [Parameter] public Func<TItem, string> GetDisplayValue { get; set; }
+    [Parameter] public Func<TItem, object> GetId { get; set; } = default!;
+    [Parameter] public Func<TItem, string> GetDisplayValue { get; set; } = default!;
     [Parameter] public EventCallback<int> OnSelectedItemChanged { get; set; }
 
     private string SearchText = string.Empty;

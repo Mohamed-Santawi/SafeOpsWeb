@@ -13,14 +13,14 @@ public class SectionClientService
 
     #region Events
 
-    public event EventHandler<bool> SectionClientCreated;
-    public event EventHandler<bool> SectionClientUpdated;
-    public event EventHandler<bool> SectionClientDeleted;
-    public event EventHandler<bool> SectionClientInvoked;
+    public event EventHandler<bool>? SectionClientCreated;
+    public event EventHandler<bool>? SectionClientUpdated;
+    public event EventHandler<bool>? SectionClientDeleted;
+    public event EventHandler<bool>? SectionClientInvoked;
 
-    public event EventHandler<bool> SectionClientError;
+    public event EventHandler<bool>? SectionClientError;
 
-    public event EventHandler<bool> OnUnauthorized;
+    public event EventHandler<bool>? OnUnauthorized;
 
     #endregion
 

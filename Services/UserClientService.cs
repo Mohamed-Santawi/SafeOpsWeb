@@ -20,7 +20,7 @@ namespace SafeOpsWeb.Services
 
         #region Events
 
-        public event EventHandler OnUnAuth;
+        public event EventHandler? OnUnAuth;
 
         #endregion
 

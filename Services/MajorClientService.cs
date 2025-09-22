@@ -20,17 +20,17 @@ public class MajorClientService
 
     #region Events
 
-    public event EventHandler<bool> MajorClientCreated;
+    public event EventHandler<bool>? MajorClientCreated;
 
-    public event EventHandler<bool> MajorClientUpdated;
+    public event EventHandler<bool>? MajorClientUpdated;
 
-    public event EventHandler<bool> MajorClientDeleted;
+    public event EventHandler<bool>? MajorClientDeleted;
 
-    public event EventHandler<bool> MajorClientInvoked;
+    public event EventHandler<bool>? MajorClientInvoked;
 
-    public event EventHandler<bool> MajorClientError;
+    public event EventHandler<bool>? MajorClientError;
 
-    public event EventHandler<bool> OnUnauthorized;
+    public event EventHandler<bool>? OnUnauthorized;
 
     #endregion
 

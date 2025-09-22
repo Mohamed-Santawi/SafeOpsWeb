@@ -28,10 +28,10 @@ namespace SafeOpsWeb.Services
 
         #region Events
 
-        public event EventHandler<TraineeShared> TraineeAdded;
-        public event EventHandler<TraineeShared> TraineeUpdated;
-        public event EventHandler<TraineeShared> TraineeDeleted;
-        public event EventHandler OnUnauthorized;
+        public event EventHandler<TraineeShared>? TraineeAdded;
+        public event EventHandler<TraineeShared>? TraineeUpdated;
+        public event EventHandler<TraineeShared>? TraineeDeleted;
+        public event EventHandler? OnUnauthorized;
 
         #endregion
 
