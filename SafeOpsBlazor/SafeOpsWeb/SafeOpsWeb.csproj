@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Backend-Only\AuthShared\AuthShared.csproj" />
+    <ProjectReference Include="AuthShared\AuthShared.csproj" />
   </ItemGroup>
 
 </Project>
